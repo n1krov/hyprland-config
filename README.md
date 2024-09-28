@@ -33,5 +33,17 @@ yay -S hyprland hyprpaper
 ```bash
 
 ```
+## Enlaces
 
+Puedes clonar el ropositorio y una vez parado en el directorio del repositorio puedes ejecutar el siguiente comando:
+
+- Para la carpeta de configuracion de `hypr`:
+```bash
+ln -s ~/<ruta_al_repo>/hyprland-config/.config/hypr/ ~/.config
+```
+
+- Para la carpeta de configuracion de `waybar`:
+```bash
+ln -s ~/<ruta_al_repo>/hyprland-config/.config/waybar/ ~/.config
+```
 
