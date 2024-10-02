@@ -2,6 +2,9 @@
 
 > Nota: Veras un script que es `hyprstart.sh`, este script es para iniciar el entorno de Hyprland por si estas en una consola de texto y no tienes un entorno grafico :3.
 
+**Importante**: Debes editar si o si el archivo `hyprpaper.conf` para que puedas tener un fondo de pantalla en tu escritorio.
+Simplemente pon las rutas de tus fondos de pantalla en el archivo `hyprpaper.conf` para `preload` y `wallpaper`.
+
 ## Requisitos
 - yay
 - git
