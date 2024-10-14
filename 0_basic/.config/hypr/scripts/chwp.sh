@@ -35,6 +35,14 @@
 # echo ⠀⣸⢸⣿⡏⣿⡇⢸⡇⠀⠀⣸⣿⣿⣿⠟⠀⠀⠀⠀⢀⣾⠋⠈⠣⣸⠇⢸⡇⠀⠀⢰⡇⠀⠀⠀⠀⠀⢀⡟⠀⠀⠀⠀⠀⠀
 # echo ⠀⠇⣼⣿⡇⣿⡇⠀⣧⠀⢰⣿⣿⡿⢃⣤⡀⠀⠀⢀⡾⠉⠑⣆⣠⠏⠀⢸⡇⠀⠀⣸⡃⠀⠀⠀⠀⠀⣸⠁⠀⠀⠀⠀⠀⠀
 
+function ctrl_c() {
+    echo "Saliendo..."
+    exit 1
+}
+
+trap ctrl_c INT
+
+
 # Carpeta donde se encuentran los wallpapers
 WALLPAPER_DIR="$HOME/.config/hypr/wp"  # Cambia esto si tus wallpapers están en otro lugar
 CONFIG_FILE="$HOME/.config/hypr/hyprpaper.conf"
