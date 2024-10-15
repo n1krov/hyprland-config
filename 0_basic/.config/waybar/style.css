@@ -235,7 +235,7 @@ button:hover {
     color: #900;
     border-radius: 16px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 400;
     font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
 
 }
@@ -270,8 +270,8 @@ button:hover {
 /* Pulseaudio Hover */
 #pulseaudio:hover {
     background-color: #900;
-    /* color: #022b36; */
-    color: #ffffff;
+    color: #022b36;
+    /* color: #ffffff; */
     animation: pulse 1s infinite; /* Pulse animation */
 }
 
