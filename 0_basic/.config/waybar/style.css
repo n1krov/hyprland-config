@@ -388,7 +388,6 @@ button:hover {
     color: #022b36;
 
     padding: 0;
-    min-width: 20px;
     border-radius: 16px;
 
     font-size: 12px;
@@ -403,6 +402,8 @@ button:hover {
 
 #keyboard-state > label.locked {
     background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    color: #900;
 }
 
 /* Scratchpad */
