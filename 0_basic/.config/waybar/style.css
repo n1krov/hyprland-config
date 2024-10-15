@@ -1,37 +1,41 @@
-* {
-    /* `otf-font-awesome` is required to be installed for icons */
-    /* para poner el hack nerd font en waybar */ 
-    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif, Hack-Nerd-Font;
-    font-size: 10px;
 
-    /* como esta en una pantalla de 765px el alto de la barra le ajusto a lo mejor que puede quedar */
-    min-height: 0;
+/* Pulse Animation */
+@keyframes pulse {
+    0% {
+        background-color: #f1c40f;
+    }
+    50% {
+        background-color: #f39c12;
+    }
+    100% {
+        background-color: #f1c40f;
+    }
 }
 
-window#waybar {
-    /* background-color: rgba(43, 48, 59, 0.5); */
-    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
-    background-color: transparent;
-    border-bottom: 3px transparent;
-    color: #ffffff;
-    transition-property: background-color;
-    transition-duration: .5s;
+/* General Styles */
+* {
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    padding: 0;
+    min-height: 23px;
+    transition: all 0.3s ease; /* Smooth transition for all elements */
+}
 
+/* Waybar Window */
+window#waybar {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 3px solid transparent; /* Corrected syntax */
+    color: #ffffff;
+    transition: background-color 0.5s ease;
+}
+
+window#waybar:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 window#waybar.hidden {
     opacity: 0.2;
 }
-
-
-/*
-window#waybar.empty {
-    background-color: transparent;
-}
-window#waybar.solo {
-    background-color: #FFFFFF;
-}
-*/
 
 window#waybar.termite {
     background-color: #3F3F3F;
@@ -42,134 +46,108 @@ window#waybar.chromium {
     border: none;
 }
 
+/* Pulseaudio Hover */
+#pulseaudio:hover {
+    background-color: #a37800;
+    animation: pulse 1s infinite; /* Pulse animation */
+}
+
+
+
+
+/* Buttons */
 button {
-    /* Use box-shadow instead of border so the text isn't offset */
     box-shadow: inset 0 -3px transparent;
-    /* Avoid rounded borders under each button name */
+    border: none;
+    border-radius: 5px; /* Rounded corners for buttons */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Glow effect on hover */
+}
+
+/* Workspaces */
+
+button {
+    box-shadow: inset 0 -3px transparent;
     border: none;
     border-radius: 0;
 }
 
-/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 button:hover {
+    transition-duration: .1s;
     background: inherit;
     box-shadow: inset 0 -3px #ffffff;
 }
 
-/* you can set a style on hover for any module like this */
-#pulseaudio:hover {
-    background-color: #a37800;
+#workspaces {
+    padding: 0 10px;
+    background-color: #ffffff;
+    border-radius: 16px;
 }
 
-/* ---------------------------------------------- */
-/* PARTE DE WORKSPACES */
-/* ---------------------------------------------- */
-
-
-/* Estilo general de los botones del módulo de workspaces */
 #workspaces button {
-    border-radius: 5px;
-    font-weight: bold;
-    background-color: transparent;
-    color: #ffffff;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 0 5px;
+    background-color: #ffffff;
+    color: #2e3440;
 }
 
-/* Efecto hover - con el color de Arch Linux */
-#workspaces button:hover {
-    background-color: #1793D1; /* Color Arch */
-    color: #ffffff;
-}
-/* Estilo para los workspaces con urgencia */
-#workspaces button.urgent {
-    background-color: #eb4d4b;
-    box-shadow: 0 0 10px rgba(235, 77, 75, 0.7); /* Resaltar */
-    color: #ffffff;
+#workspaces button.persistent {
+    background-color: #d8dee9;
+    color: #4c566a;
 }
 
-/* Ajuste adicional para el espacio de trabajo no seleccionado */
-#workspaces button.default {
-    background-color: transparent;
-    color: #9da5b4;
-    border: 2px solid transparent;
-}
-
-
-/* Estilo para el escritorio seleccionado (focused) */
-#workspaces button.focused {
-    background-color: #1793D1;
-    box-shadow: inset 0 -3px #ffffff;
-    color: #ffffff;
-    border: 2px solid #ffffff; /* Borde resaltado */
-}
-
-/* Separador opcional entre botones para mejor visualización */
-#workspaces button + button {
-    margin-left: 5px;
+#workspaces button.active {
+    /* box-shadow: inset 0 -4px #4c566a; */
+    background-color: #ffffff;
+    color: #900;
 }
 
 
 
-/* ---------------------------------------------- */
-
-
+/* Mode */
 #mode {
     background-color: #64727D;
     box-shadow: inset 0 -3px #ffffff;
 }
 
-#clock,
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#wireplumber,
-#custom-media,
-#tray,
-#mode,
-#idle_inhibitor,
-#scratchpad,
-#power-profiles-daemon,
+/* Modules Styles */
+#clock, #battery, #cpu, #memory, #disk, #temperature, 
+#backlight, #network, #pulseaudio, #wireplumber, #custom-media, 
+#tray, #mode, #idle_inhibitor, #scratchpad, #power-profiles-daemon, 
 #mpd {
     padding: 0 10px;
     color: #ffffff;
 }
 
-#window,
-#workspaces {
-    margin: 0 4px;
-}
-
-/* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces {
-    margin-left: 0;
-}
-
-/* If workspaces is the rightmost module, omit right margin */
-.modules-right > widget:last-child > #workspaces {
-    margin-right: 0;
-}
-
+/* Clock */
 #clock {
-    background-color: #64727D;
-    border-radius: 8px;
+    background-color: #ffffff;
+    color: #900;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
+    border-radius: 16px;
 }
 
+/* Battery */
 #battery {
     background-color: #ffffff;
     color: #000000;
-    border-radius: 8px;
 }
 
 #battery.charging, #battery.plugged {
-    color: #ffffff;
     background-color: #26A65B;
+    color: #ffffff;
+}
 
-    border-radius: 8px;
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation: blink 0.5s steps(12) infinite alternate;
 }
 
 @keyframes blink {
@@ -179,24 +157,15 @@ button:hover {
     }
 }
 
-/* Using steps() instead of linear as a timing function to limit cpu usage */
-#battery.critical:not(.charging) {
-    background-color: #f53c3c;
-    color: #ffffff;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: steps(12);
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
+/* Power Profiles */
 #power-profiles-daemon {
     padding-right: 15px;
-    border-radius: 8px;
+
+    border-radius: 16px;
 }
 
 #power-profiles-daemon.performance {
-    background-color: #f53c3c;
+    background-color: #900;
     color: #ffffff;
 }
 
@@ -210,58 +179,58 @@ button:hover {
     color: #000000;
 }
 
-label:focus {
-    background-color: #000000;
-}
-
+/* CPU */
 #cpu {
     background-color: #2ecc71;
     color: #000000;
-
-    border-radius: 8px;
 }
 
+/* Memory */
 #memory {
     background-color: #9b59b6;
-    border-radius: 8px;
 }
 
+/* Disk */
 #disk {
     background-color: #964B00;
 }
 
+/* Backlight */
 #backlight {
     background-color: #90b1b1;
-    border-radius: 8px;
     color: #000000;
 }
 
+/* Network */
 #network {
-    background-color: #2980b9;
-    border-radius: 8px;
+    /* background-color: #2980b9; */
+    background-color: #ffffff;
+    color: #900;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
 }
 
 #network.disconnected {
-    background-color: #f53c3c;
-    border-radius: 8px;
+    background-color: #900;
+    color: #ffffff;
 }
 
+/* Pulseaudio */
 #pulseaudio {
     background-color: #f1c40f;
     color: #000000;
-    border-radius: 8px;
-    /* para aumentar el anchura del modulo */
-    min-width: 75px;
-    /* para que se ajuste al texto */
-    /* padding: 0 5px; */
+    min-width: 80px;
 }
 
 #pulseaudio.muted {
     background-color: #90b1b1;
     color: #2a5c45;
-    border-radius: 8px;
 }
 
+/* Wireplumber */
 #wireplumber {
     background-color: #fff0f5;
     color: #000000;
@@ -271,6 +240,7 @@ label:focus {
     background-color: #f53c3c;
 }
 
+/* Custom Media */
 #custom-media {
     background-color: #66cc99;
     color: #2a5c45;
@@ -285,18 +255,28 @@ label:focus {
     background-color: #ffa000;
 }
 
+/* Temperature */
 #temperature {
-    background-color: #f0932b;
-
-    border-radius: 8px;
+    background-color: #f39c12;
 }
 
 #temperature.critical {
     background-color: #eb4d4b;
 }
 
+/* Tray */
 #tray {
     background-color: #2980b9;
+    padding: 0 5px;
+}
+
+#tray button {
+    background-color: transparent;
+    padding: 0 5px;
+}
+
+#tray button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 #tray > .passive {
@@ -308,10 +288,9 @@ label:focus {
     background-color: #eb4d4b;
 }
 
+/* Idle Inhibitor */
 #idle_inhibitor {
     background-color: #2d3436;
-
-    border-radius: 8px;
 }
 
 #idle_inhibitor.activated {
@@ -319,6 +298,7 @@ label:focus {
     color: #2d3436;
 }
 
+/* MPD */
 #mpd {
     background-color: #66cc99;
     color: #2a5c45;
@@ -336,6 +316,7 @@ label:focus {
     background-color: #51a37a;
 }
 
+/* Language & Keyboard State */
 #language {
     background: #00b093;
     color: #740864;
@@ -345,12 +326,10 @@ label:focus {
 }
 
 #keyboard-state {
-    background: #97e1ad;
+    background: #00b093;
     color: #000000;
-    padding: 0 0px;
-    margin: 0 5px;
+    padding: 0;
     min-width: 20px;
-    border-radius: 8px;
 }
 
 #keyboard-state > label {
@@ -361,14 +340,16 @@ label:focus {
     background: rgba(0, 0, 0, 0.2);
 }
 
+/* Scratchpad */
 #scratchpad {
     background: rgba(0, 0, 0, 0.2);
 }
 
 #scratchpad.empty {
-	background-color: transparent;
+    background-color: transparent;
 }
 
+/* Privacy */
 #privacy {
     padding: 0;
 }
@@ -390,21 +371,19 @@ label:focus {
     background-color: #0069d4;
 }
 
-
-
-/* para el boton de power que esta a la izqui css se usa .custom-power */
+/* Custom Power Button */
 #custom-power {
-    /* bg-color archbtw; */
-    background-color: #1793D1;
-
-    color: #ffffff;
-    border-radius: 8px;
-    /* tamaño de la fuente */
+    /* background-color: #1793D1; */
+    background-color: #ffffff;
+    color: #900;
     font-size: 20px;
-
-    /* min width es para que el ancho del boton no sea un poco mas grande*/
     min-width: 32px;
-
-    /* para corregir la posicion del icono */
     padding-right: 4px;
+
+    border-radius: 0 16px 16px 0;
+}
+
+/* General Padding Adjustment */
+#network, #cpu, #memory, #backlight, #battery {
+    padding: 0 5px;
 }

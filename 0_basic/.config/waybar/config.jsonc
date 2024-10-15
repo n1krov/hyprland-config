@@ -1,63 +1,69 @@
+
 // -*- mode: jsonc -*-
 {
-    // "layer": "top", // Waybar at top layer
-    // "position": "bottom", // Waybar position (top|bottom|left|right)
-    // "height": 30, // Waybar height (to be removed for auto height)
-    // "width": 1280, // Waybar width
-    
-
     "spacing": 4, // Gaps between modules (4px)
     
     "modules-left": [
-        "hyprland/workspaces",
-        "hyprland/mode",
-        "hyprland/scratchpad",
+        "custom/power",
+        "clock",
+        "network",
+        "power-profiles-daemon"
     ],
     "modules-center": [
-        "sway/window"
+        "hyprland/workspaces"
     ],
     "modules-right": [
         "mpd",
         "idle_inhibitor",
         "pulseaudio",
-        "network",
-        "power-profiles-daemon",
         "cpu",
         "memory",
         "temperature",
         "backlight",
         "keyboard-state",
-        "sway/language",
-        "battery",
-        // "battery#bat2",
-        "clock",
-        "tray",
-        "custom/power"
+        // "battery",
+        "tray"
     ],
 
     "hyprland/workspaces": {
-        "disable-scroll": false,
-        "all-outputs": true,
-        "warp-on-scroll": false,
-        "format": "{icon}",  // Muestra nombre y icono
+        "format": "{icon}",
         "format-icons": {
-            "1": "",    // Terminal
-            "2": "",    // Navegador
-            "3": "",    // Editor de código
-            "4": "",    // Música
-            "5": "",    // Mensajería
-            "6": "",    // Terminal adicional
-            "7": "",    // Navegador adicional
-            "8": "",    // Desarrollo
-            "urgent": "",  // Urgente
-            "focused": "", // Actual (enfocado)
-            "default": ""  // Escritorios por defecto
+          "active": "󰮯",  // Icono de círculo relleno para el workspace activo
+          "default": "",  // Icono de círculo vacío para el workspace por defecto
+          "persistent": "" // Icono de círculo pequeño para persistentes
         },
-        "on-click": "hyprctl dispatch workspace {name}"  // Cambiar de workspace al hacer clic
+        "on-scroll-up": "hyprctl dispatch workspace r-1",  // Cambia al workspace anterior
+        "on-scroll-down": "hyprctl dispatch workspace r+1",  // Cambia al siguiente workspace
+        "all-outputs": false,
+        "persistent_workspaces": {
+          "*": 9  // Máximo de 5 workspaces persistentes
+        }
     },
 
-
     
+    // "hyprland/workspaces": {
+    //     "disable-scroll": false,
+    //     "all-outputs": true,
+    //     "warp-on-scroll": false,
+    //     "format": "{icon}",  // Mostrar nombre e icono
+    //     "format-icons": {
+    //         "active": "󰮯 ",
+    //         "1": "●",   // Pelotita para el workspace 1
+    //         "2": "●",   // Pelotita para el workspace 2
+    //         "3": "●",   // Pelotita para el workspace 3
+    //         "4": "●",   // Pelotita para el workspace 4
+    //         "5": "●",   // Pelotita para el workspace 5
+    //         "6": "●",   // Pelotita para el workspace 6
+    //         "7": "●",   // Pelotita para el workspace 7
+    //         "8": "●",   // Pelotita para el workspace 8
+    //         "9": "●",   // Pelotita para el workspace 9
+    //         "urgent": "",  // Icono para workspace urgente
+    //         "focused": "", // Icono para workspace enfocado
+    //         "default": ""  // Icono por defecto para workspaces inactivos
+    //     },
+    //     "on-click": "hyprctl dispatch workspace {name}"  // Cambiar de workspace al hacer clic
+    // },
+
     "keyboard-state": {
         "numlock": true,
         "capslock": true,
@@ -67,7 +73,6 @@
             "unlocked": ""
         }
     },
-
 
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -113,12 +118,12 @@
         }
     },
     "tray": {
-        // "icon-size": 21,
         "spacing": 10
     },
     "clock": {
         "timezone": "America/Argentina/Buenos_Aires",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%H:%M:%S}",  // Format to show hours, minutes, and seconds
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
@@ -129,22 +134,16 @@
         "format": "{}% "
     },
     "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
         "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
         "format-icons": ["", "", "", "", ""]
-        // "format-icons": ["", "", ""]
     },
     "backlight": {
-        // "device": "acpi_video1",
         "format": "{percent}% {icon}",
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "battery": {
         "states": {
-            // "good": 95,
             "warning": 30,
             "critical": 15
         },
@@ -153,36 +152,29 @@
         "format-charging": "{capacity}% ",
         "format-plugged": "{capacity}% ",
         "format-alt": "{time} {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
         "format-icons": ["", "", "", "", ""]
     },
-    // "battery#bat2": {
-    //     "bat": "BAT2"
-    // },
     "power-profiles-daemon": {
       "format": "{icon}",
       "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
       "tooltip": true,
       "format-icons": {
-        "default": "",
-        "performance": "",
+        "default": "󱀚",
+        "performance": "󱀚",
         "balanced": "",
         "power-saver": ""
       }
     },
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
+        "format-ethernet": "{ipaddr}/{cidr}  󰈀",
+        "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}",
+        "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "format-alt": "{ifname}: {ipaddr}/{cidr} 󰛳",
     },
     "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon}    {format_source}",
+        "format": "{volume}% {icon} {format_source}",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
@@ -208,21 +200,17 @@
             "default": "🎜"
         },
         "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
     },
     "custom/power": {
-        // "format" : "⏻ ",
         "format": "󰣇",
-		"tooltip": false,
-		"menu": "on-click",
-		"menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
-		"menu-actions": {
-			"shutdown": "shutdown",
-			"reboot": "reboot",
-			"suspend": "systemctl suspend",
-			"hibernate": "systemctl hibernate"
-		}
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-actions": {
+            "shutdown": "shutdown",
+            "reboot": "reboot",
+            "suspend": "systemctl suspend",
+            "hibernate": "systemctl hibernate"
+        }
     }
-    // para llamar al custom/power en css se usa .custom-power
 }
