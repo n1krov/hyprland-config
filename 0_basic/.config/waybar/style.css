@@ -1,14 +1,20 @@
 
+
+
 /* Pulse Animation */
 @keyframes pulse {
     0% {
-        background-color: #f1c40f;
+        background-color: #ffffff;
     }
     50% {
-        background-color: #f39c12;
+        /* por si va del lado derecho */
+        /* background-color: #022b36; */
+    
+        /* por si va del lado izquierdo */
+        background-color: #900;
     }
     100% {
-        background-color: #f1c40f;
+        background-color: #ffffff;
     }
 }
 
@@ -46,11 +52,7 @@ window#waybar.chromium {
     border: none;
 }
 
-/* Pulseaudio Hover */
-#pulseaudio:hover {
-    background-color: #a37800;
-    animation: pulse 1s infinite; /* Pulse animation */
-}
+
 
 
 
@@ -91,7 +93,8 @@ button:hover {
 #workspaces button {
     padding: 0 5px;
     background-color: #ffffff;
-    color: #2e3440;
+    /* color: #2e3440; */
+    color: #022b36;
 }
 
 #workspaces button.persistent {
@@ -136,7 +139,16 @@ button:hover {
 /* Battery */
 #battery {
     background-color: #ffffff;
-    color: #000000;
+    color: #022b36;
+
+
+    border-radius: 16px 0 0 16px;
+    min-width: 45px;
+
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
 }
 
 #battery.charging, #battery.plugged {
@@ -145,7 +157,7 @@ button:hover {
 }
 
 #battery.critical:not(.charging) {
-    background-color: #f53c3c;
+    background-color: #900;
     color: #ffffff;
     animation: blink 0.5s steps(12) infinite alternate;
 }
@@ -170,24 +182,38 @@ button:hover {
 }
 
 #power-profiles-daemon.balanced {
-    background-color: #2980b9;
+    background-color: #022b36;
     color: #ffffff;
 }
 
 #power-profiles-daemon.power-saver {
-    background-color: #2ecc71;
+    background-color: #00bf87;
     color: #000000;
 }
 
 /* CPU */
 #cpu {
-    background-color: #2ecc71;
-    color: #000000;
+
+    background-color: #ffffff;
+    color: #022b36;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+    min-width: 45px;
+
 }
 
 /* Memory */
 #memory {
-    background-color: #9b59b6;
+    background-color: #ffffff;
+
+    border-radius: 16px;
+
+
+    color: #022b36;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* Disk */
@@ -197,8 +223,12 @@ button:hover {
 
 /* Backlight */
 #backlight {
-    background-color: #90b1b1;
-    color: #000000;
+   background-color: #ffffff;
+    color: #022b36;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif; 
 }
 
 /* Network */
@@ -208,7 +238,7 @@ button:hover {
     color: #900;
     border-radius: 16px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 400;
     font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
 
 }
@@ -220,10 +250,34 @@ button:hover {
 
 /* Pulseaudio */
 #pulseaudio {
-    background-color: #f1c40f;
-    color: #000000;
+    /* background-color: #f1c40f; */
+    
+    /* por si va del lado derecho */
+    /* background-color: #ffffff; */
+    /* color: #022b36; */
+
+    /* por si va del lado izquierdo */
+    background-color: #ffffff;
+    color: #900;
+
     min-width: 80px;
+    border-radius: 16px;
+    
+    /* font */
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
 }
+
+/* Pulseaudio Hover */
+#pulseaudio:hover {
+    background-color: #900;
+    color: #022b36;
+    /* color: #ffffff; */
+    animation: pulse 1s infinite; /* Pulse animation */
+}
+
 
 #pulseaudio.muted {
     background-color: #90b1b1;
@@ -257,7 +311,13 @@ button:hover {
 
 /* Temperature */
 #temperature {
-    background-color: #f39c12;
+    background-color: #ffffff;
+    color: #022b36;
+
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
 }
 
 #temperature.critical {
@@ -325,11 +385,18 @@ button:hover {
     min-width: 16px;
 }
 
+/* keyboard state */
 #keyboard-state {
-    background: #00b093;
-    color: #000000;
+    background: #ffffff;
+    color: #022b36;
+
     padding: 0;
-    min-width: 20px;
+    border-radius: 16px;
+
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
 }
 
 #keyboard-state > label {
@@ -338,6 +405,8 @@ button:hover {
 
 #keyboard-state > label.locked {
     background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    color: #900;
 }
 
 /* Scratchpad */

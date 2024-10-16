@@ -1,27 +1,29 @@
 
+
 // -*- mode: jsonc -*-
 {
     "spacing": 4, // Gaps between modules (4px)
     
     "modules-left": [
         "custom/power",
-        "clock",
         "network",
-        "power-profiles-daemon"
+        "pulseaudio",
+        "clock",
+        "power-profiles-daemon",
     ],
     "modules-center": [
         "hyprland/workspaces"
     ],
     "modules-right": [
         "mpd",
-        "idle_inhibitor",
-        "pulseaudio",
+        // "idle_inhibitor",
+        // "pulseaudio",
         "cpu",
         "memory",
         "temperature",
         "backlight",
         "keyboard-state",
-        // "battery",
+        "battery",
         "tray"
     ],
 
@@ -29,8 +31,8 @@
         "format": "{icon}",
         "format-icons": {
           "active": "󰮯",  // Icono de círculo relleno para el workspace activo
-          "default": "",  // Icono de círculo vacío para el workspace por defecto
-          "persistent": "" // Icono de círculo pequeño para persistentes
+          "default": "",  // Icono de círculo vacío para el workspace por defecto
+          "persistent": "" // Icono de círculo pequeño para persistentes
         },
         "on-scroll-up": "hyprctl dispatch workspace r-1",  // Cambia al workspace anterior
         "on-scroll-down": "hyprctl dispatch workspace r+1",  // Cambia al siguiente workspace
@@ -67,7 +69,7 @@
     "keyboard-state": {
         "numlock": true,
         "capslock": true,
-        "format": "{name} {icon}",
+        "format": " {name} {icon} ",
         "format-icons": {
             "locked": "",
             "unlocked": ""
@@ -131,7 +133,7 @@
         "tooltip": false
     },
     "memory": {
-        "format": "{}% "
+        "format": "{}%  "
     },
     "temperature": {
         "critical-threshold": 80,
@@ -166,16 +168,16 @@
       }
     },
     "network": {
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr}  󰈀",
+        "format-wifi": "  {essid} ({signalStrength}%)   ",
+        "format-ethernet": "  {ipaddr}/{cidr}  󰈀  ",
         "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr} 󰛳",
+        "format-alt": "{ifname}: {ipaddr}/{cidr} 󰛳 ",
     },
     "pulseaudio": {
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format": " {volume}% {icon}      {format_source} ",
+        "format-bluetooth": "{volume}%   {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
         "format-source": "{volume}% ",
