@@ -10,9 +10,9 @@ En este paso instalaremos y configuraremos **Waybar**, la barra de estado/panel 
 sudo pacman -S waybar
 ```
 
-> *Opcional*: Si quieres la versión más reciente (a veces más estable con Hyprland), puedes instalar `waybar` desde AUR:
+> *Opcional*: Si quieres la versión más reciente (a veces más estable con Hyprland), puedes instalar `waybar-hyprland-git` desde AUR:
 > ```sh
-> yay -S waybar
+> paru -S waybar-hyprland-git
 > ```
 
 ---
@@ -25,7 +25,7 @@ sudo pacman -S waybar
 sudo pacman -S \
   network-manager-applet \
   alsa-utils \
-  pulseaudio \
+  pipewire pipewire-pulse \
   playerctl \
   bluez bluez-utils blueman \
   upower \
@@ -39,7 +39,7 @@ sudo pacman -S \
 **¿Qué aporta cada módulo/paquete?**
 
 - `network-manager-applet`: Estado/control de red.
-- `alsa-utils`, `pulseaudio`: Control de volumen/audio.
+- `alsa-utils`, `pipewire`, `pipewire-pulse`: Control de volumen/audio.
 - `playerctl`: Control multimedia.
 - `bluez`, `blueman`: Bluetooth.
 - `upower`: Batería y energía.
@@ -132,6 +132,4 @@ Si tienes errores, consulta logs en la terminal y ajusta la configuración segú
 ---
 
 **¡Waybar ahora está instalado, tematizado y listo para personalizar a fondo!**
-
-¿Quieres ejemplos avanzados de configuración, recomendaciones de temas o ayuda con scripts custom?
 
