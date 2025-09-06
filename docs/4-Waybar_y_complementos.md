@@ -10,9 +10,9 @@ En este paso instalaremos y configuraremos **Waybar**, la barra de estado/panel 
 sudo pacman -S waybar
 ```
 
-> *Opcional*: Si quieres la versión más reciente (a veces más estable con Hyprland), puedes instalar `waybar-hyprland-git` desde AUR:
+> *Opcional*: Si quieres la versión más reciente (a veces más estable con Hyprland), puedes instalar `waybar` desde AUR:
 > ```sh
-> paru -S waybar-hyprland-git
+> yay -S waybar
 > ```
 
 ---
@@ -32,8 +32,8 @@ sudo pacman -S \
   sysstat \
   jq \
   python \
-  fontawesome-fonts \
-  ttf-jetbrains-mono-nerd
+  ttf-font-awesome \
+  ttf-hack-nerd
 ```
 
 **¿Qué aporta cada módulo/paquete?**
@@ -45,7 +45,10 @@ sudo pacman -S \
 - `upower`: Batería y energía.
 - `sysstat`: Estadísticas de CPU y memoria.
 - `jq`, `python`: Scripts y módulos personalizados.
-- `fontawesome-fonts`, `ttf-jetbrains-mono-nerd`: Iconos y fuentes nerd para mejor visualización en la barra.
+- `ttf-font-awesome`, `ttf-hack-nerd`: Iconos y fuentes nerd para mejor visualización en la barra.
+
+> **Nota:**  
+> Se recomienda `ttf-hack-nerd` para los íconos nerd y una mejor compatibilidad visual, pero puedes usar cualquier otra fuente nerd que prefieras.
 
 ---
 
@@ -87,12 +90,12 @@ Crea el archivo `~/.config/waybar/config` y adapta según tus preferencias:
 
 ## 4.5. Tematización de Waybar
 
-Crea tu archivo de estilos `~/.config/waybar/style.css` y usa temas como [catppuccin-waybar](https://github.com/catppuccin/waybar), [nord-waybar](https://github.com/archcraft-os/archcraft-themes/tree/main/waybar), o crea tu propio estilo.  
+Crea tu archivo de estilos `~/.config/waybar/style.css` y usa temas como [catppuccin-waybar](https://github.com/catppuccin/waybar), [nord-waybar](https://github.com/archcraft-os/archcraft-themes/tree/[...]
 Ejemplo básico:
 
 ```css
 * {
-  font-family: 'JetBrainsMono Nerd Font', monospace;
+  font-family: 'Hack Nerd Font', monospace;
   font-size: 13px;
 }
 
@@ -131,3 +134,4 @@ Si tienes errores, consulta logs en la terminal y ajusta la configuración segú
 **¡Waybar ahora está instalado, tematizado y listo para personalizar a fondo!**
 
 ¿Quieres ejemplos avanzados de configuración, recomendaciones de temas o ayuda con scripts custom?
+
