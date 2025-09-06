@@ -228,6 +228,13 @@ function cursors(){
     ls -a /usr/share/icons/
 }
 
+# ir al directorio de configuracion chezmoi
+function chez(){
+    echo -e "\n${GREEN}[󰞷]${END}${BOLD} Directorio Chezmoi${END}\n"
+    cd ~/.local/share/chezmoi
+    lla
+}
+
 function ipz()
 {
     ip_var=$(ifconfig | grep enp1s0 -A 1 | grep inet | awk '{print $2}')
