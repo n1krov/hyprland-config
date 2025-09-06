@@ -159,14 +159,42 @@ Elige tu favorita(s):
   paru -S marktext
   ```
 
+
 ---
 
 ## 5.10. Otros recomendados
 
 - **Gestión de portapapeles**: wl-clipboard, cliphist.
-- **Herramientas de captura y screencast**: grim, slurp, wf-recorder, obs-studio.
 - **Gestión de energía**: upower, acpi, poweralertd.
 - **Utilidades varias**: neofetch, fastfetch, btop, htop.
+
+
+## 5.11. Herramientas de captura de pantalla (Screenshots)
+
+- **grim** (captura de pantalla para Wayland):
+  ```sh
+  sudo pacman -S grim
+  ```
+- **slurp** (selección de área para grim):
+  ```sh
+  sudo pacman -S slurp
+  ```
+- **swappy** (anota y edita capturas):
+  ```sh
+  paru -S swappy
+  ```
+- **shotman** (alternativa GUI ligera):
+  ```sh
+  paru -S shotman
+  ```
+- **wf-recorder** (para grabación de pantalla, también permite capturas):
+  ```sh
+  sudo pacman -S wf-recorder
+  ```
+- **obs-studio** (grabación y streaming avanzado):
+  ```sh
+  sudo pacman -S obs-studio
+  ```
 
 ---
 
