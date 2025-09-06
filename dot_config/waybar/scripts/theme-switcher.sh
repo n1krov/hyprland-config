@@ -81,4 +81,4 @@ esac
 
 tooltip=$(tr '-' ' ' <<<"$current_theme")
 
-echo "{ \"text\": \">\", \"tooltip\": \"Theme: <span text_transform='capitalize'>${tooltip}</span>\" }"
+echo "{ \"text\": \"󰊠\", \"tooltip\": \"Theme: <span text_transform='capitalize'>${tooltip}</span>\" }"
