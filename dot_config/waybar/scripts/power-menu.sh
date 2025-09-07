@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
 
-# shellcheck disable=SC1091
-source "$HOME/.config/waybar/scripts/theme-switcher.sh" 'fzf'
+config="$HOME/.config/rofi/power-menu.rasi"
 
-list=$(printf '%s\n' 'Lock' 'Shutdown' 'Reboot' 'Logout' 'Hibernate' 'Suspend')
+actions=$(echo -e "  Suspend\n  Lock\n  Shutdown\n  Reboot\n  Hibernate\n󰞘  Logout")
 
-options=(
-	--border=sharp
-	--border-label=' Power Menu '
-	--height=~100%
-	--highlight-line
-	--no-input
-	--pointer=
-	--reverse
-)
-# shellcheck disable=SC2154
-options+=("${colors[@]}")
+# Display logout menu
+selected_option=$(echo -e "$actions" | rofi -dmenu -i -config "${config}" || pkill -x rofi)
 
-selected=$(fzf "${options[@]}" <<<"$list")
-
-[[ -z $selected ]] && exit 0
-
-case "$selected" in
-	'Lock') loginctl lock-session ;;
-	'Shutdown') systemctl poweroff ;;
-	'Reboot') systemctl reboot ;;
-	'Logout') loginctl terminate-session "$XDG_SESSION_ID" ;;
-	'Hibernate') systemctl hibernate ;;
-	'Suspend') systemctl suspend ;;
+# Perform actions based on the selected option
+case "$selected_option" in
+*Suspend)
+  systemctl suspend
+  loginctl lock-session
+  ;;
+*Shutdown)
+  systemctl poweroff
+  ;;
+*Reboot)
+  systemctl reboot
+  ;;
+*Lock)
+  loginctl lock-session
+  ;;
+*Hibernate)
+  systemctl hibernate
+  ;;
+*Logout)
+  loginctl kill-session "$XDG_SESSION_ID"
+  ;;
 esac

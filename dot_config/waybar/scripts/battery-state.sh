@@ -1,34 +1,50 @@
 #!/usr/bin/env bash
-#
-# Send a notification when the battery state changes using udev rules
-#
-# Add the following to /etc/udev/rules.d/60-power.rules
-# (replace USERNAME with your actual username):
-#
-# ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", RUN+="/usr/bin/su USERNAME --command '~/.config/waybar/scripts/battery-state.sh charging'"
-# ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="0", RUN+="/usr/bin/su USERNAME --command '~/.config/waybar/scripts/battery-state.sh discharging'"
-#
-# Reload udev rules by running:
-# sudo udevadm control --reload
-#
-# Author: Jesse Mirabel <github.com/sejjy>
-# Created: August 15, 2025
-# License: MIT
 
-export DBUS_SESSION_BUS_ADDRESS='unix:path=/run/user/1000/bus'
+# Original script by Eric Murphy
+# https://github.com/ericmurphyxyz/dotfiles/blob/master/.local/bin/battery-alert
+#
+# Modified by Jesse Mirabel (@sejjy)
+# https://github.com/sejjy/mechabar
 
-case $1 in
-	'charging')
-		state='Charging'
-		icon='battery-full-charging'
-		;;
-	'discharging')
-		state='Discharging'
-		icon='battery-full'
-		;;
+# This script sends a notification when the battery is charging or discharging.
+# icon theme used: tela-circle-icon-theme-dracula
+#
+# (see the bottom of the script for more information)
+
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
+
+# get the battery state from the udev rule
+BATTERY_STATE=$1
+
+# get the battery percentage using upower (waybar dependency)
+BAT_PATH=$(upower -e | grep BAT | head -n 1)
+BATTERY_LEVEL=$(upower -i "$BAT_PATH" | awk '/percentage:/ {print $2}' | tr -d '%')
+
+# set the battery charging state and icon
+case "$BATTERY_STATE" in
+"charging")
+  BATTERY_CHARGING="Charging"
+  BATTERY_ICON="090-charging"
+  ;;
+"discharging")
+  BATTERY_CHARGING="Disharging"
+  BATTERY_ICON="090"
+  ;;
 esac
 
-path=$(upower -e | grep BAT | head -n 1)
-level=$(upower -i "$path" | awk '/percentage:/ {print $2}')
+# send the notification
+notify-send -a "state" "Battery ${BATTERY_CHARGING} (${BATTERY_LEVEL}%)" -u normal -i "battery-${BATTERY_ICON}" -r 9991
 
-notify-send "Battery ${state} (${level})" -i "$icon" -r 1525
+# udev rule
+# Add the following to /etc/udev/rules.d/60-power.rules:
+
+# ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="0", ENV{DISPLAY}=":0", RUN+="/usr/bin/su <username> -c '$HOME/.config/waybar/scripts/battery-state.sh discharging'"
+# ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", ENV{DISPLAY}=":0", RUN+="/usr/bin/su <username> -c '$HOME/.config/waybar/scripts/battery-state.sh charging'"
+
+# the number 60 in the udev rule can be changed to any number between 0 and 99.
+# the lower the number, the higher the priority.
+#
+# $USER does not work, so you have to replace "<username>" with your username.
+
+# reload udev rules by running the following command:
+# sudo udevadm control --reload-rules

@@ -1,0 +1,15 @@
+hypr/
+├── hyprland.conf           # Archivo principal, importa el resto de módulos
+├── autostart.conf
+├── keybindings.conf
+├── workspace.conf
+├── appearance.conf
+├── windowrules.conf
+├── input.conf
+├── monitor.conf
+├── animations.conf
+├── env.conf
+├── scripts/
+│   ├── autostart.sh
+│   └── custom.sh
+└── README.md

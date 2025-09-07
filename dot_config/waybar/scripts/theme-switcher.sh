@@ -1,84 +1,54 @@
 #!/usr/bin/env bash
 
-theme_css="$HOME/.config/waybar/theme.css"
-theme_dir="$HOME/.config/waybar/themes"
+WAYBAR_CSS_DIR="$HOME/.config/waybar/themes/css"
+WAYBAR_CSS_FILE="$HOME/.config/waybar/theme.css"
+WAYBAR_JSONC_DIR="$HOME/.config/waybar/themes/jsonc"
+WAYBAR_JSONC_FILE="$HOME/.config/waybar/config.jsonc"
+ROFI_THEMES_DIR="$HOME/.config/rofi/themes"
+ROFI_THEME_FILE="$HOME/.config/rofi/theme.rasi"
+CURRENT_THEME_FILE="$HOME/.config/waybar/themes/current-theme"
 
-current_theme=$(head -n 1 "$theme_css" | awk '{print $2}')
+for dir in "$WAYBAR_CSS_DIR" "$WAYBAR_JSONC_DIR" "$ROFI_THEMES_DIR"; do
+  [[ ! -d "$dir" ]] && echo "Error: $dir not found" && exit 1
+done
 
-case $1 in
-	'next' | 'prev')
-		themes=("$theme_dir/"*.css)
-		index=-1
+# Get all themes
+waybar_css=("$WAYBAR_CSS_DIR"/*.css)
+waybar_jsonc=("$WAYBAR_JSONC_DIR"/*.jsonc)
+rofi_themes=("$ROFI_THEMES_DIR"/*.rasi)
 
-		for i in "${!themes[@]}"; do
-			theme=$(basename "${themes[$i]}" .css)
+if [[ ${#waybar_css[@]} -eq 0 || ${#waybar_jsonc[@]} -eq 0 || ${#rofi_themes[@]} -eq 0 ]]; then
+  echo "Error: No themes found in one of the directories"
+  exit 1
+fi
 
-			if [[ $theme == "$current_theme" ]]; then
-				index=$i
-				break
-			fi
-		done
+# Get the current theme
+current_theme=$(cat "$CURRENT_THEME_FILE" 2>/dev/null || echo "")
 
-		case $1 in
-			'next')
-				new_index=$(((index + 1) % ${#themes[@]}))
-				;;
-			'prev')
-				new_index=$(((index - 1 + ${#themes[@]}) % ${#themes[@]}))
-				;;
-		esac
+# Find the index of the current theme
+next_theme_index=0
+for i in "${!waybar_css[@]}"; do
+  [[ "${waybar_css[$i]}" == "$current_theme" ]] && next_theme_index=$(((i + 1) % ${#waybar_css[@]})) && break
+done
 
-		new_theme="${themes[$new_index]}"
-		cp "$new_theme" "$theme_css"
+# Get the new theme
+new_waybar_css="${waybar_css[$next_theme_index]}"
+new_waybar_jsonc="${waybar_jsonc[$next_theme_index]}"
+new_rofi_theme="${rofi_themes[$next_theme_index]}"
 
-		pkill waybar 2>/dev/null || true
-		nohup waybar >/dev/null 2>&1 &
-		;;
+# Save the new theme
+echo "$new_waybar_css" >"$CURRENT_THEME_FILE"
 
-	'fzf')
-		case $current_theme in
-			'catppuccin-frappe')
-				export colors=(
-					--color='bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284'
-					--color='fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf'
-					--color='marker:#babbf1,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284'
-					--color='selected-bg:#51576d'
-					--color='border:#737994,label:#c6d0f5'
-				)
-				;;
-			'catppuccin-latte')
-				export colors=(
-					--color='bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39'
-					--color='fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78'
-					--color='marker:#7287fd,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39'
-					--color='selected-bg:#bcc0cc'
-					--color='border:#9ca0b0,label:#4c4f69'
-				)
-				;;
-			'catppuccin-macchiato')
-				export colors=(
-					--color='bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796'
-					--color='fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6'
-					--color='marker:#b7bdf8,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796'
-					--color='selected-bg:#494d64'
-					--color='border:#6e738d,label:#cad3f5'
-				)
-				;;
-			'catppuccin-mocha')
-				export colors=(
-					--color='bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8'
-					--color='fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc'
-					--color='marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8'
-					--color='selected-bg:#45475a'
-					--color='border:#6c7086,label:#cdd6f4'
-				)
-				;;
-		esac
+declare -A theme_files=(
+  ["$new_waybar_css"]="$WAYBAR_CSS_FILE"
+  ["$new_waybar_jsonc"]="$WAYBAR_JSONC_FILE"
+  ["$new_rofi_theme"]="$ROFI_THEME_FILE"
+)
 
-		return 0
-		;;
-esac
+for src in "${!theme_files[@]}"; do
+  cp "$src" "${theme_files[$src]}"
+done
 
-tooltip=$(tr '-' ' ' <<<"$current_theme")
-
-echo "{ \"text\": \"󰊠\", \"tooltip\": \"Theme: <span text_transform='capitalize'>${tooltip}</span>\" }"
+# Restart Waybar to apply changes
+killall waybar || true
+nohup waybar --config "$HOME/.config/waybar/config.jsonc" --style "$HOME/.config/waybar/style.css" >/dev/null 2>&1 &
