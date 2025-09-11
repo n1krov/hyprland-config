@@ -216,6 +216,11 @@ function repos(){
     lla
 }
 
+kat(){
+    cat ~/.config/hypr/keybindindings.conf -l python
+}
+
+
 # para los repos de configuracion
 function dot(){
     echo -e "\n${GREEN}[󰞷]${END}${BOLD} Directorio Dotfiles${END}\n"

@@ -1,5 +1,6 @@
 /* catppuccin-mocha */
 
+
 @define-color rosewater		#f5e0dc;
 @define-color flamingo		#f2cdcd;
 @define-color pink			#f5c2e7;
@@ -38,7 +39,8 @@
 @define-color main-br		@subtext0;
 @define-color main-bg		@crust;
 @define-color main-fg		@text;
-@define-color accent		@yellow;
+/* @define-color accent		@yellow; */
+@define-color accent        @sky;
 @define-color hover-bg		@base;
 @define-color hover-fg		alpha(@text, 0.75);
 @define-color outline		shade(@crust, 0.5);
