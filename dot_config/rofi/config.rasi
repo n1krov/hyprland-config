@@ -1,0 +1,125 @@
+/* ========================================
+ * 🎨 ROFI GLOBAL THEME - n1krov minimal
+ * ======================================== */
+
+configuration {
+    font: "Inter 11";
+    show-icons: true;
+    icon-theme: "Papirus";
+    drun-display-format: "{name}";
+    display-drun: "Apps";
+    display-run: "Run";
+    display-window: "Window";
+    display-ssh: "SSH";
+}
+
+* {
+    bg:       #181825;
+    bg-alt:   #1e1e2e;
+    fg:       #cdd6f4;
+    fg-alt:   #7f849c;
+    accent:   #33ccff;
+    urgent:   #f38ba8;
+    border:   1px;
+    border-radius: 10px;
+    margin:   0px;
+    padding:  0px;
+    spacing:  0px;
+}
+
+window {
+    background-color: @bg;
+    border: @border;
+    border-color: @accent;
+    border-radius: @border-radius;
+    location: center;
+    width: 480px;
+    children: [mainbox];
+}
+
+mainbox {
+    background-color: transparent;
+    children: [inputbar, listview];
+    spacing: 8px;
+    padding: 12px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius: 8px;
+    text-color: @fg;
+    padding: 7px 12px;
+    children: [prompt, entry];
+}
+
+prompt {
+    background-color: transparent;
+    text-color: @accent;
+    font: "Inter Bold 12";
+    margin: 0px 8px 0px 0px;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @fg;
+    font: "Inter 11";
+}
+
+listview {
+    background-color: transparent;
+    columns: 1;
+    spacing: 4px;
+    border-radius: 8px;
+    dynamic: true;
+    layout: vertical;
+}
+
+element {
+    background-color: transparent;
+    text-color: @fg;
+    border-radius: 7px;
+    padding: 7px 10px;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color: @bg;
+    font: "Inter Bold 11";
+}
+
+element urgent.normal {
+    background-color: @urgent;
+    text-color: @bg;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    expand: true;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}
+
+message {
+    background-color: @bg-alt;
+    text-color: @urgent;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font: "Inter 10";
+}
+
+textbox {
+    background-color: @bg-alt;
+    text-color: @fg;
+    border-radius: 7px;
+    padding: 4px 10px;
+    font: "Inter 10";
+}
+
+
+
