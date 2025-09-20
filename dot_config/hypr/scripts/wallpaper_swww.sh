@@ -37,7 +37,7 @@ change_wallpaper() {
         
         echo "✅ Wallpaper cambiado: $(basename "$wallpaper") con transición $transition"
     else
-        notify-send "❌ Error" "Wallpaper no encontrado: $wallpaper"
+        notify-send "❌ Error" "Wallpaper no encontrado en .config/hypr/wallapapers/: $wallpaper"
         echo "❌ Error: Wallpaper no existe"
     fi
 }
