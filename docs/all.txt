@@ -1,0 +1,1414 @@
+# Ejemplos de instalación masiva de paquetes con `pacman` para Hyprland/Wayland
+
+A continuación se muestra cómo instalar **todos los paquetes esenciales** para un entorno Hyprland/Wayland moderno en Arch Linux, **según tu hardware gráfico**.  
+Estos comandos incluyen utilidades esenciales, drivers, dependencias Wayland, herramientas de personalización y programas recomendados.  
+**No incluye paquetes de AUR (paru/yay)** ni duplicados, y cada bloque está listo para copiar y pegar.
+
+---
+
+## 💻 Ejemplo para Hardware **Intel**
+
+```sh
+sudo pacman -Syu \
+networkmanager wget curl git base-devel unzip zip htop neofetch timeshift \
+mesa xf86-video-intel vulkan-intel \
+wayland wayland-protocols hyprland xdg-desktop-portal-hyprland wl-clipboard wayland-utils wlr-randr swaybg grim slurp mako polkit-gnome qt5-wayland qt6-wayland qt5ct qt6ct gnome-keyring brightnessctl pavucontrol swww chezmoi \
+waybar network-manager-applet alsa-utils pipewire pipewire-pulse playerctl bluez bluez-utils blueman upower sysstat jq python ttf-font-awesome ttf-hack-nerd \
+wofi kitty foot alacritty thunar thunar-archive-plugin file-roller nemo nautilus pcmanfm \
+firefox chromium qutebrowser neovim helix imv loupe mpv vlc thunderbird wf-recorder obs-studio \
+lxappearance papirus-icon-theme breeze-icons breeze-cursor-theme xcursor-breeze xcursor-comix xcursor-vanilla-dmz ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-iosevka-nerd ttf-dejavu ttf-roboto noto-fonts \
+pamixer wireplumber btop fastfetch xorg-xwayland
+```
+
+---
+
+## 💻 Ejemplo para Hardware **AMD**
+
+```sh
+sudo pacman -Syu \
+networkmanager wget curl git base-devel unzip zip htop neofetch timeshift \
+mesa xf86-video-amdgpu vulkan-radeon \
+wayland wayland-protocols hyprland xdg-desktop-portal-hyprland wl-clipboard wayland-utils wlr-randr swaybg grim slurp mako polkit-gnome qt5-wayland qt6-wayland qt5ct qt6ct gnome-keyring brightnessctl pavucontrol swww chezmoi \
+waybar network-manager-applet alsa-utils pipewire pipewire-pulse playerctl bluez bluez-utils blueman upower sysstat jq python ttf-font-awesome ttf-hack-nerd \
+wofi kitty foot alacritty thunar thunar-archive-plugin file-roller nemo nautilus pcmanfm \
+firefox chromium qutebrowser neovim helix imv loupe mpv vlc thunderbird wf-recorder obs-studio \
+lxappearance papirus-icon-theme breeze-icons breeze-cursor-theme xcursor-breeze xcursor-comix xcursor-vanilla-dmz ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-iosevka-nerd ttf-dejavu ttf-roboto noto-fonts \
+pamixer wireplumber btop fastfetch xorg-xwayland
+```
+
+---
+
+## 💻 Ejemplo para Hardware **NVIDIA**
+
+```sh
+sudo pacman -Syu \
+networkmanager wget curl git base-devel unzip zip htop neofetch timeshift \
+nvidia nvidia-utils \
+mesa \
+wayland wayland-protocols hyprland xdg-desktop-portal-hyprland wl-clipboard wayland-utils wlr-randr swaybg grim slurp mako polkit-gnome qt5-wayland qt6-wayland qt5ct qt6ct gnome-keyring brightnessctl pavucontrol swww chezmoi \
+waybar network-manager-applet alsa-utils pipewire pipewire-pulse playerctl bluez bluez-utils blueman upower sysstat jq python ttf-font-awesome ttf-hack-nerd \
+wofi kitty foot alacritty thunar thunar-archive-plugin file-roller nemo nautilus pcmanfm \
+firefox chromium qutebrowser neovim helix imv loupe mpv vlc thunderbird wf-recorder obs-studio \
+lxappearance papirus-icon-theme breeze-icons breeze-cursor-theme xcursor-breeze xcursor-comix xcursor-vanilla-dmz ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-iosevka-nerd ttf-dejavu ttf-roboto noto-fonts \
+pamixer wireplumber btop fastfetch xorg-xwayland
+```
+
+---
+
+## 🔎 Notas
+
+- **Instala solo los drivers gráficos correspondientes a tu hardware (Intel / AMD / NVIDIA).**
+- Puedes quitar programas que no uses para mantener tu sistema más liviano.
+- Los paquetes de AUR (ej: `catppuccin-gtk-theme`, `bibata-cursor-theme`, `eww`, etc.) se instalan con `paru -S` y no están en estos ejemplos.
+- Si necesitas cambiar el tamaño del cursor, usa:
+  ```sh
+  hyprctl setcursor Qogir-cursors 24
+  ```
+- Para backup/restauración, revisa los pasos de tu README.
+
+---
+
+**¡Copia el bloque que corresponda a tu hardware y tendrás todo lo esencial para tu setup Hyprland con pacman!**
+# 1. Preparación del Sistema – Arch Linux
+
+Esta sección describe cómo dejar tu sistema Arch Linux limpio y listo para montar un escritorio moderno con Hyprland y Wayland.
+
+---
+
+## 1.1. Instalación básica de Arch Linux
+
+- Realiza una instalación limpia de Arch Linux (puedes seguir la [Arch Wiki - Installation Guide](https://wiki.archlinux.org/title/Installation_guide)).
+- Evita instalar un entorno de escritorio o window manager durante la instalación.
+- Crea tu usuario y otórgale permisos de sudo.
+
+## 1.2. Actualiza el sistema
+
+```sh
+sudo pacman -Syu
+```
+
+## 1.3. Instala herramientas de red y utilidades esenciales
+
+```sh
+sudo pacman -S networkmanager wget curl git base-devel
+sudo systemctl enable NetworkManager
+sudo systemctl start NetworkManager
+```
+
+## 1.4. Instala los drivers gráficos correctos
+
+Elige según tu hardware:
+
+- **Intel:**
+  ```sh
+  sudo pacman -S mesa xf86-video-intel vulkan-intel
+  ```
+- **AMD:**
+  ```sh
+  sudo pacman -S mesa xf86-video-amdgpu vulkan-radeon
+  ```
+- **NVIDIA:**
+  ```sh
+  sudo pacman -S nvidia nvidia-utils
+  ```
+> Si tienes dudas sobre tu hardware, puedes usar:
+> ```sh
+> lspci | grep -e VGA -e 3D
+> ```
+
+## 1.5. Instala soporte base para Wayland
+
+```sh
+sudo pacman -S wayland wayland-protocols
+```
+
+## 1.6. (Opcional) Otros paquetes útiles
+
+```sh
+sudo pacman -S unzip zip htop neofetch
+```
+
+## 1.7. Recomendaciones
+
+- Haz snapshot o backup si usas btrfs o timeshift.
+- Mantén un README con los pasos ejecutados (como este archivo).
+- Versiona tu configuración desde el principio (usa git en tu home o un directorio de dotfiles).
+
+---
+
+**¡Con esto tu Arch Linux estará limpio, actualizado y listo para el próximo paso: instalar Hyprland y dependencias!**
+# 2. Instalación de Hyprland y dependencias principales
+
+Esta sección cubre cómo instalar Hyprland y los paquetes esenciales para un entorno de trabajo Wayland moderno en Arch Linux.
+
+---
+
+## 2.1. Instalar Hyprland
+
+**Desde los repositorios oficiales (recomendado):**
+```sh
+sudo pacman -S hyprland
+```
+
+---
+
+## 2.2. Instalar dependencias clave para Wayland
+
+```sh
+sudo pacman -S \
+  xdg-desktop-portal-hyprland \
+  wl-clipboard \
+  wayland-utils \
+  wlr-randr \
+  swaybg \
+  grim \
+  slurp \
+  mako \
+  polkit-gnome \
+  qt5-wayland qt6-wayland \
+  qt5ct qt6ct \
+  gnome-keyring \
+  brightnessctl \
+  pavucontrol \
+  swww
+```
+
+**Descripción rápida de algunos paquetes:**
+
+- `xdg-desktop-portal-hyprland`: Para portales y compatibilidad de aplicaciones.
+- `wl-clipboard`: Utilidades de portapapeles en Wayland.
+- `wayland-utils`: Herramientas útiles de diagnóstico.
+- `wlr-randr`: Configuración de monitores.
+- `swaybg`: Fondos de pantalla.
+- `grim` + `slurp`: Capturas de pantalla.
+- `mako`: Notificaciones.
+- `polkit-gnome`: Dialogos de permisos para apps gráficas.
+- `qt5/6-wayland`, `qt5ct/qt6ct`: Soporte y configuración de aplicaciones Qt.
+- `gnome-keyring`: Gestor de contraseñas para apps.
+- `brightnessctl`: Control de brillo.
+- `pavucontrol`: Control de volumen y audio.
+- `swww`: Fondos de pantalla animados o transiciones.
+
+---
+
+## 2.3. (Opcional) Instalar herramientas de desarrollo y utilidades extra
+
+```sh
+sudo pacman -S neovim git unzip zip htop fastfetch
+```
+
+---
+
+## 2.4. (Opcional) Instalar AUR Helper
+
+Para instalar cosas como `waybar-git`, `wofi`, etc., más adelante:
+
+```sh
+sudo pacman -S --needed base-devel
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+```
+
+---
+
+## 2.5. Notas rápidas
+
+- **No ejecutes Hyprland como root.** Siempre desde tu usuario normal.
+- Si tienes problemas de permisos con brillo/sonido, revisa que tu usuario esté en los grupos adecuados (`video`, `audio`, etc).
+
+---
+
+**¡Con esto tu sistema tendrá Hyprland listo para lanzar y todas sus dependencias esenciales Wayland!**
+
+# 3. Gestión de Configuración
+
+En esta sección se describe cómo organizar, versionar y sincronizar tu configuración personal del escritorio (dotfiles) usando un gestor de dotfiles y buenas prácticas de estructura.
+
+---
+
+## 3.1. ¿Por qué usar un gestor de dotfiles?
+
+- Permite mantener tu configuración sincronizada entre varias computadoras.
+- Facilita el backup, restauración y migración de tu entorno.
+- Puedes versionar cambios y experimentar sin perder configuraciones anteriores.
+- Mantiene tu `$HOME` ordenado y modular.
+
+---
+
+## 3.2. Opciones populares
+
+- **chezmoi**: Muy potente, multiplataforma, fácil de usar.
+- **yadm**: Simplicidad git + dotfiles.
+- **stow**: Muy simple, enlaces simbólicos.
+- **dotter**: Modular, escrito en Rust.
+
+**En este ejemplo se usará `chezmoi`, pero puedes adaptar los pasos a cualquier gestor.**
+
+---
+
+## 3.3. Instalación de chezmoi
+
+```sh
+sudo pacman -S chezmoi
+```
+
+---
+
+## 3.4. Inicializar tu repositorio de dotfiles
+
+```sh
+chezmoi init --prompt
+```
+O, si ya tienes un repositorio:
+```sh
+chezmoi init <tu-usuario>/<repo-dotfiles>
+chezmoi apply
+```
+
+---
+
+## 3.5. Estructura recomendada de carpetas
+
+Organiza tu configuración de programas por carpetas dentro de `~/.config`:
+
+```
+~/.config/
+├── hypr/        # Hyprland
+├── waybar/      # Waybar
+├── mako/        # Notificaciones
+├── wofi/        # Lanzador de apps
+├── kitty/       # Terminal
+├── nvim/        # Neovim
+├── ...          # Otros programas
+```
+
+Con chezmoi, los archivos estarían en `~/.local/share/chezmoi/dot_config/<programa>/`.
+
+---
+
+## 3.6. Versiona tu configuración
+
+- Utiliza git para tener historial de cambios:
+  ```sh
+  cd ~/.local/share/chezmoi
+  git init
+  git add .
+  git commit -m "Primer commit de dotfiles"
+  # Luego conecta tu repo remoto
+  git remote add origin git@github.com:TU_USUARIO/dotfiles.git
+  git push -u origin main
+  ```
+
+---
+
+## 3.7. Tips y buenas prácticas
+
+- Documenta cada cambio importante en tus dotfiles con mensajes de commit claros.
+- Usa plantillas o variables de chezmoi para datos sensibles o específicos de máquina.
+- Excluye archivos con información privada o claves (usa `.gitignore`).
+- Mantén un README en la raíz del repositorio explicando estructura y cómo instalar.
+
+---
+
+**¡Con esto puedes mantener tu configuración siempre bajo control, ordenada y lista para restaurar o migrar en segundos!**
+# 4. Waybar y Complementos
+
+En este paso instalaremos y configuraremos **Waybar**, la barra de estado/panel para Wayland, junto a sus módulos y dependencias más útiles para un escritorio moderno.
+
+---
+
+## 4.1. Instalación de Waybar
+
+```sh
+sudo pacman -S waybar
+```
+
+> *Opcional*: Si quieres la versión más reciente (a veces más estable con Hyprland), puedes instalar `waybar-hyprland-git` desde AUR:
+> ```sh
+> paru -S waybar-hyprland-git
+> ```
+
+---
+
+## 4.2. Instalación de módulos y dependencias útiles
+
+**Waybar** soporta módulos nativos y personalizados. Instala los siguientes paquetes para que funcionen todos los módulos esenciales y para tener una barra completa:
+
+```sh
+sudo pacman -S \
+  network-manager-applet \
+  alsa-utils \
+  pipewire pipewire-pulse \
+  playerctl \
+  bluez bluez-utils blueman \
+  upower \
+  sysstat \
+  jq \
+  python \
+  ttf-font-awesome \
+  ttf-hack-nerd
+```
+
+**¿Qué aporta cada módulo/paquete?**
+
+- `network-manager-applet`: Estado/control de red.
+- `alsa-utils`, `pipewire`, `pipewire-pulse`: Control de volumen/audio.
+- `playerctl`: Control multimedia.
+- `bluez`, `blueman`: Bluetooth.
+- `upower`: Batería y energía.
+- `sysstat`: Estadísticas de CPU y memoria.
+- `jq`, `python`: Scripts y módulos personalizados.
+- `ttf-font-awesome`, `ttf-hack-nerd`: Iconos y fuentes nerd para mejor visualización en la barra.
+
+> **Nota:**  
+> Se recomienda `ttf-hack-nerd` para los íconos nerd y una mejor compatibilidad visual, pero puedes usar cualquier otra fuente nerd que prefieras.
+
+---
+
+## 4.3. Estructura de configuración recomendada
+
+Organiza tu configuración en la carpeta `~/.config/waybar/`:
+
+```
+~/.config/waybar/
+├── config        # Configuración principal (JSON/JSONC)
+├── style.css     # Tema y colores
+├── scripts/      # Scripts personalizados (opcional)
+```
+
+---
+
+## 4.4. Ejemplo de configuración básica (JSONC)
+
+Crea el archivo `~/.config/waybar/config` y adapta según tus preferencias:
+
+```jsonc
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": ["tray", "pulseaudio", "network", "battery", "cpu", "memory", "backlight", "bluetooth", "custom/updates", "clock#2"],
+  "clock": {
+    "format": "{:%H:%M  %a %d %b}"
+  },
+  "battery": {
+    "format": "{capacity}% {icon}"
+  },
+  // Más módulos y configuración aquí
+}
+```
+
+---
+
+## 4.5. Tematización de Waybar
+
+Crea tu archivo de estilos `~/.config/waybar/style.css` y usa temas como [catppuccin-waybar](https://github.com/catppuccin/waybar), [nord-waybar](https://github.com/archcraft-os/archcraft-themes/tree/[...]
+Ejemplo básico:
+
+```css
+* {
+  font-family: 'Hack Nerd Font', monospace;
+  font-size: 13px;
+}
+
+window#waybar {
+  background: #181825;
+  color: #cdd6f4;
+  border-bottom: 2px solid #b4befe;
+}
+
+/* Módulos individuales */
+#clock, #battery, #cpu, #memory {
+  padding: 0 10px;
+}
+```
+
+---
+
+## 4.6. Scripts y módulos personalizados (opcional)
+
+Puedes añadir módulos custom en tu barra usando scripts en `~/.config/waybar/scripts/` (por ejemplo, para actualizaciones, clima, VPN, etc.).
+
+---
+
+## 4.7. Probar y depurar
+
+Ejecuta Hyprland y luego Waybar para probar la barra:
+
+```sh
+waybar
+```
+
+Si tienes errores, consulta logs en la terminal y ajusta la configuración según mensajes.
+
+---
+
+**¡Waybar ahora está instalado, tematizado y listo para personalizar a fondo!**
+
+# 5. Programas Esenciales para Wayland
+
+En este paso instalaremos los programas y utilidades más importantes para tener un escritorio Wayland completo, funcional y adaptado a tu flujo de trabajo.
+
+---
+
+## 5.1. Lanzador de aplicaciones
+
+Elige uno (o varios) y agrégalos a tu instalación:
+
+- **wofi** (recomendado, rápido y configurable):
+  ```sh
+  sudo pacman -S wofi
+  ```
+- **rofi-wayland** (versión para Wayland):
+  ```sh
+  paru -S rofi-lbonn-wayland
+  ```
+- **tofi** (minimalista y rápido):
+  ```sh
+  paru -S tofi
+  ```
+
+---
+
+## 5.2. Terminales compatibles con Wayland
+
+Elige tu favorita(s):
+
+- **kitty**:
+  ```sh
+  sudo pacman -S kitty
+  ```
+- **foot**:
+  ```sh
+  sudo pacman -S foot
+  ```
+- **wezterm**:
+  ```sh
+  paru -S wezterm
+  ```
+- **alacritty**:
+  ```sh
+  sudo pacman -S alacritty
+  ```
+
+---
+
+## 5.3. Gestores de archivos
+
+- **thunar** (ligero, estable):
+  ```sh
+  sudo pacman -S thunar thunar-archive-plugin file-roller
+  ```
+- **nemo**:
+  ```sh
+  sudo pacman -S nemo
+  ```
+- **nautilus**:
+  ```sh
+  sudo pacman -S nautilus
+  ```
+- **pcmanfm**:
+  ```sh
+  sudo pacman -S pcmanfm
+  ```
+
+---
+
+## 5.4. Navegadores web
+
+- **Firefox (con soporte Wayland nativo)**:
+  ```sh
+  sudo pacman -S firefox
+  ```
+  Añade esto a tu environment para forzar modo Wayland:
+  ```sh
+  echo 'export MOZ_ENABLE_WAYLAND=1' >> ~/.profile
+  ```
+- **Chromium**:
+  ```sh
+  sudo pacman -S chromium
+  ```
+- **qutebrowser**:
+  ```sh
+  sudo pacman -S qutebrowser
+  ```
+
+---
+
+## 5.5. Editores y herramientas de productividad
+
+- **neovim**:
+  ```sh
+  sudo pacman -S neovim
+  ```
+- **helix**:
+  ```sh
+  sudo pacman -S helix
+  ```
+- **vscode (con soporte wayland en insiders)**:
+  ```sh
+  paru -S visual-studio-code-insiders-bin
+  ```
+
+---
+
+## 5.6. Visor de imágenes
+
+- **imv**:
+  ```sh
+  sudo pacman -S imv
+  ```
+- **loupe** (GTK4, wayland-friendly):
+  ```sh
+  sudo pacman -S loupe
+  ```
+
+---
+
+## 5.7. Reproductores multimedia
+
+- **mpv**:
+  ```sh
+  sudo pacman -S mpv
+  ```
+- **vlc**:
+  ```sh
+  sudo pacman -S vlc
+  ```
+
+---
+
+## 5.8. Cliente de correo electrónico
+
+- **thunderbird**:
+  ```sh
+  sudo pacman -S thunderbird
+  ```
+- **aerc**:
+  ```sh
+  paru -S aerc
+  ```
+
+---
+
+## 5.9. Apps de notas
+
+- **obsidian**:
+  ```sh
+  paru -S obsidian
+  ```
+- **logseq**:
+  ```sh
+  paru -S logseq-desktop-bin
+  ```
+- **marktext**:
+  ```sh
+  paru -S marktext
+  ```
+
+
+---
+
+## 5.10. Otros recomendados
+
+- **Gestión de portapapeles**: wl-clipboard, cliphist.
+- **Gestión de energía**: upower, acpi, poweralertd.
+- **Utilidades varias**: neofetch, fastfetch, btop, htop.
+
+
+## 5.11. Herramientas de captura de pantalla (Screenshots)
+
+- **grim** (captura de pantalla para Wayland):
+  ```sh
+  sudo pacman -S grim
+  ```
+- **slurp** (selección de área para grim):
+  ```sh
+  sudo pacman -S slurp
+  ```
+- **swappy** (anota y edita capturas):
+  ```sh
+  paru -S swappy
+  ```
+- **shotman** (alternativa GUI ligera):
+  ```sh
+  paru -S shotman
+  ```
+- **wf-recorder** (para grabación de pantalla, también permite capturas):
+  ```sh
+  sudo pacman -S wf-recorder
+  ```
+- **obs-studio** (grabación y streaming avanzado):
+  ```sh
+  sudo pacman -S obs-studio
+  ```
+
+---
+
+**Con esto tendrás todos los programas esenciales para un entorno Wayland moderno y funcional. Instala solo los que realmente vayas a usar para mantener tu sistema limpio y rápido.**
+
+# 6. Herramientas de Personalización
+
+En este paso vamos a instalar y configurar temas, iconos, fuentes y cursores para lograr un escritorio Hyprland atractivo y coherente visualmente.
+
+---
+
+## 6.1. Temas GTK
+
+Instala algunos temas populares para aplicaciones GTK (Thunar, Gedit, etc.):
+
+```sh
+sudo pacman -S lxappearance qt5ct qt6ct
+```
+
+Temas recomendados y sus paquetes:
+
+- **Catppuccin:**  
+  [catppuccin-gtk-theme](https://aur.archlinux.org/packages/catppuccin-gtk-theme) (`paru -S catppuccin-gtk-theme`)
+- **Nord:**  
+  [nordic-theme](https://aur.archlinux.org/packages/nordic-theme) (`paru -S nordic-theme`)
+- **Dracula:**  
+  [dracula-gtk-theme](https://aur.archlinux.org/packages/dracula-gtk-theme) (`paru -S dracula-gtk-theme`)
+- **Gruvbox:**  
+  [gruvbox-material-gtk-theme-git](https://aur.archlinux.org/packages/gruvbox-material-gtk-theme-git) (`paru -S gruvbox-material-gtk-theme-git`)
+
+Para aplicar el tema, usa **lxappearance**.
+
+---
+
+## 6.2. Temas de iconos
+
+- **Papirus:**  
+  ```sh
+  sudo pacman -S papirus-icon-theme
+  ```
+- **Catppuccin:**  
+  `paru -S catppuccin-icon-theme`
+
+---
+
+## 6.3. Cursores
+
+- **Bibata:**  
+  ```sh
+  paru -S bibata-cursor-theme
+  ```
+- **Catppuccin:**  
+  `paru -S catppuccin-cursors`
+
+Aplica los cursores desde **lxappearance**.
+
+---
+
+## 6.4. Fuentes recomendadas
+
+- **Nerd Fonts (para waybar, terminal, etc.):**
+  ```sh
+  sudo pacman -S ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-iosevka-nerd
+  ```
+- **Fuentes para interfaz/lectura:**
+  ```sh
+  sudo pacman -S ttf-dejavu ttf-roboto noto-fonts
+  ```
+
+---
+
+## 6.5. Temas para Waybar
+
+- [Catppuccin Waybar](https://github.com/catppuccin/waybar)
+- [Nord Waybar](https://github.com/archcraft-os/archcraft-themes/tree/main/waybar)
+- [Gruvbox Waybar](https://github.com/crispybaccoon/gruvbox-waybar)
+
+Descarga el CSS y reemplaza tu `~/.config/waybar/style.css`.
+
+---
+
+## 6.6. Aplicar y configurar temas
+
+- Usa **lxappearance** para GTK, iconos y cursores.
+- Usa **qt5ct** y **qt6ct** para programas basados en Qt.
+- Cambia las fuentes desde las mismas herramientas o editando tus archivos de configuración (`~/.config/waybar/style.css`, `~/.config/kitty/kitty.conf`, etc).
+
+---
+
+## 6.7. Recomendaciones
+
+- Mantén copias de tus configuraciones de temas en tu repositorio de dotfiles.
+- Documenta los temas que usas y cómo cambiarlos en tu README.
+- Usa fondos de pantalla acordes al esquema de colores elegido.
+
+---
+
+**¡Ahora tu escritorio Hyprland no solo será funcional, sino también atractivo y coherente!**
+# 7. Gestión de Fondos de Pantalla
+
+En este paso se detalla cómo configurar y automatizar el cambio de fondos de pantalla en tu escritorio Hyprland bajo Wayland.
+
+---
+
+## 7.1. Herramientas recomendadas
+
+- **swaybg**: Sencillo, rápido, soportado por Hyprland.
+  ```sh
+  sudo pacman -S swaybg
+  ```
+- **swww**: Efectos de transición y animaciones al cambiar de fondo.
+  ```sh
+  paru -S swww
+  ```
+- **hyprpaper**: Alternativa oficial de Hyprland, muy ligera.
+  ```sh
+  paru -S hyprpaper
+  ```
+
+---
+
+## 7.2. Configuración básica
+
+### Usando swaybg
+
+Agrega a tu `~/.config/hypr/hyprland.conf`:
+```
+exec-once = swaybg -i ~/Imágenes/wallpapers/mi_fondo.jpg -m fill
+```
+
+### Usando swww
+
+1. Inicia el daemon en tu configuración de Hyprland:
+   ```
+   exec-once = swww-daemon
+   exec = swww img ~/Imágenes/wallpapers/mi_fondo.jpg --transition-type any
+   ```
+2. Cambia el fondo fácilmente:
+   ```sh
+   swww img ~/Imágenes/wallpapers/otro_fondo.jpg --transition-type any
+   ```
+
+### Usando hyprpaper
+
+Agrega a tu `~/.config/hypr/hyprland.conf`:
+```
+exec-once = hyprpaper
+```
+Y crea un archivo `~/.config/hypr/hyprpaper.conf`:
+```
+preload = ~/Imágenes/wallpapers/mi_fondo.jpg
+wallpaper = ,~/Imágenes/wallpapers/mi_fondo.jpg
+```
+
+---
+
+## 7.3. Cambio automático de fondos
+
+- **swww-random** (AUR) o un script personalizado con `cron`/`systemd` + `swww`.
+- **pywal**: Para generar paletas de colores a partir del fondo (útil para temas automáticos).
+
+---
+
+## 7.4. Organización recomendada
+
+- Guarda tus wallpapers en una carpeta dedicada, por ejemplo: `~/Imágenes/wallpapers/`.
+- Versiona tu configuración de scripts y herramientas en tu repo de dotfiles si tienes scripts personalizados.
+
+---
+
+## 7.5. Ejemplo de script para cambio automático (con swww y systemd user)
+
+Crea `~/.config/swww/auto-wall.sh`:
+```sh
+#!/bin/sh
+WALLPAPERS=~/Imágenes/wallpapers
+swww img "$(find "$WALLPAPERS" -type f | shuf -n1)" --transition-type any
+```
+Hazlo ejecutable:
+```sh
+chmod +x ~/.config/swww/auto-wall.sh
+```
+Agrega un timer de systemd user para ejecutarlo cada cierto tiempo.
+
+---
+
+**¡Con esto tendrás tu escritorio siempre fresco y a tu gusto, con cambios de fondo fluidos y automáticos si lo deseas!**
+# 8. Utilidades Avanzadas
+
+En este paso se listan y configuran utilidades que mejoran la experiencia de uso diario en Wayland/Hyprland, optimizando el flujo de trabajo y agregando funciones imprescindibles.
+
+---
+
+## 8.1. Portapapeles
+
+- **wl-clipboard:**  
+  ```sh
+  sudo pacman -S wl-clipboard
+  ```
+- **cliphist** (historial de portapapeles, requiere wl-clipboard):  
+  ```sh
+  paru -S cliphist
+  ```
+- **Configuración recomendada:**  
+  Añade a tu `~/.config/hypr/hyprland.conf`:
+  ```
+  exec-once = wl-paste --type text --watch cliphist store
+  ```
+
+---
+
+## 8.2. Volumen y Audio
+
+- **pamixer:**  
+  ```sh
+  sudo pacman -S pamixer
+  ```
+- **pavucontrol** (control gráfico de audio):  
+  ```sh
+  sudo pacman -S pavucontrol
+  ```
+- **wireplumber** (gestor de audio para pipewire):  
+  ```sh
+  sudo pacman -S wireplumber
+  ```
+
+---
+
+## 8.3. Red y Bluetooth
+
+- **network-manager-applet**  
+  ```sh
+  sudo pacman -S network-manager-applet
+  ```
+- **blueman** (UI para Bluetooth):  
+  ```sh
+  sudo pacman -S blueman
+  ```
+
+---
+
+## 8.4. Notificaciones
+
+- **mako** (ligero y personalizable, recomendado):  
+  ```sh
+  sudo pacman -S mako
+  ```
+  Agrega a tu configuración Hyprland:
+  ```
+  exec-once = mako
+  ```
+
+---
+
+## 8.5. Capturas de pantalla y grabación
+
+- **grim** y **slurp** (captura de pantalla):  
+  ```sh
+  sudo pacman -S grim slurp
+  ```
+- **swappy** (editor de capturas):  
+  ```sh
+  paru -S swappy
+  ```
+- **wf-recorder** (grabación de pantalla):  
+  ```sh
+  paru -S wf-recorder
+  ```
+- **obs-studio** (grabación avanzada y streaming):  
+  ```sh
+  sudo pacman -S obs-studio
+  ```
+
+---
+
+## 8.6. Menú de apagado/reinicio/suspender
+
+- **wlogout** (menú gráfico):  
+  ```sh
+  paru -S wlogout
+  ```
+- Puedes vincularlo a un atajo en Hyprland para acceso rápido.
+
+---
+
+## 8.7. Otros utilitarios recomendados
+
+- **btop / htop:** Monitoreo de sistema.
+- **neofetch / fastfetch:** Información rápida del sistema.
+- **brightnessctl:** Control de brillo desde terminal/barra.
+- **trayer / stalonetray:** Bandeja de sistema para apps legacy (si lo necesitas).
+
+---
+
+## 8.8. Ejemplo de sección en hyprland.conf para utilidades
+
+```
+exec-once = mako
+exec-once = wl-paste --type text --watch cliphist store
+exec-once = blueman-applet
+exec-once = nm-applet --indicator
+exec-once = wlogout
+```
+
+---
+
+**Con estas utilidades tu escritorio Wayland será mucho más completo, cómodo y productivo.**
+# 9. Gestión de Ventanas y Tiling (Hyprland)
+
+En este paso configuraremos el comportamiento de las ventanas, el tiling, y la organización de escritorios virtuales para sacar el máximo provecho del gestor de ventanas dinámico que ofrece Hyprland.
+
+---
+
+## 9.1. Gaps, bordes y comportamiento del tiling
+
+Edita tu archivo `~/.config/hypr/hyprland.conf` para ajustar los siguientes parámetros:
+
+```ini
+# Espacio entre ventanas (gaps)
+gaps_in = 6
+gaps_out = 20
+border_size = 3
+col.active_border = rgba(89b4faee)
+col.inactive_border = rgba(18182588)
+```
+
+---
+
+## 9.2. Reglas de ventanas (floating, tiling, etc.)
+
+Puedes definir reglas para que ciertas aplicaciones se abran siempre en modo flotante, en un workspace específico, etc.
+
+```ini
+windowrulev2 = float, class:^(pavucontrol|blueman-manager|nm-connection-editor)$
+windowrulev2 = workspace 3, class:^(Firefox)$
+windowrulev2 = size 800 600, class:^(wlogout)$
+windowrulev2 = center, class:^(wlogout)$
+```
+
+Consulta la [documentación oficial de Hyprland: windowrules](https://wiki.hyprland.org/Configuring/Window-Rules/) para más ejemplos.
+
+---
+
+## 9.3. Atajos de teclado recomendados
+
+Ejemplo de atajos en `hyprland.conf`:
+
+```ini
+# Cambiar de workspace
+bind = $mod, 1, workspace, 1
+bind = $mod, 2, workspace, 2
+# Mover ventana a otro workspace
+bind = $mod SHIFT, 1, movetoworkspace, 1
+# Cambiar de ventana
+bind = $mod, h, movefocus, l
+bind = $mod, l, movefocus, r
+bind = $mod, j, movefocus, d
+bind = $mod, k, movefocus, u
+# Flotar una ventana
+bind = $mod, f, togglefloating
+# Maximizar/Restaurar
+bind = $mod, m, fullscreen
+```
+
+---
+
+## 9.4. Scripts y automatización
+
+Puedes crear scripts o usar hooks para organizar ventanas automáticamente según tus necesidades.
+
+Ejemplo: Script para lanzar apps en workspaces específicos al iniciar Hyprland.
+
+```ini
+exec-once = firefox
+exec-once = kitty
+exec-once = thunar
+```
+
+O usando reglas específicas para cada aplicación.
+
+---
+
+## 9.5. Otras opciones útiles
+
+- **Scratchpads:** Ejecuta terminales flotantes o apps en overlay con atajos.
+- **Swallow:** Oculta la terminal al lanzar apps gráficas desde ella.
+- **Animations:** Personaliza animaciones de transición en la configuración (`animations { ... }`).
+
+---
+
+## 9.6. Documenta tus atajos y reglas
+
+Mantén un archivo `keybindings.md` en tu repo de dotfiles con todos tus atajos y reglas personalizadas para fácil referencia y actualización.
+
+---
+
+**¡Con esto tendrás control total sobre tu flujo de ventanas, escritorios y navegación, optimizando tu productividad en Hyprland!**
+# 10. Solución de Problemas y Tips
+
+Al trabajar con Hyprland y Wayland pueden surgir problemas comunes. Aquí tienes soluciones y consejos útiles.
+
+---
+
+## 10.1. Problemas comunes
+
+### Aplicaciones que no arrancan (especialmente X11)
+
+- Prueba instalar `xwayland` para compatibilidad:
+  ```sh
+  sudo pacman -S xorg-xwayland
+  ```
+- Si sigue sin funcionar, ejecuta la aplicación desde terminal y revisa el error.
+
+### Glitches gráficos o rendimiento bajo
+
+- Verifica que tienes los drivers correctos instalados.
+- Reinstala `mesa`, `vulkan-*`, y asegúrate de no tener conflictos de paquetes.
+- Asegúrate de usar la sesión de Hyprland/Wayland, no X11.
+
+### Problemas con el portapapeles
+
+- Asegúrate de tener `wl-clipboard` y `cliphist` corriendo en segundo plano como se indicó en pasos anteriores.
+
+### Problemas con input (teclado, touchpad)
+
+- Verifica tu archivo `hyprland.conf`, puedes añadir reglas extra para input.
+- Consulta [Hyprland Input Docs](https://wiki.hyprland.org/Configuring/Variables/#input) para opciones avanzadas.
+
+---
+
+## 10.2. Debug y logs
+
+- Lanza Hyprland desde una TTY con:
+  ```sh
+  Hyprland > ~/hyprland.log 2>&1
+  ```
+  Luego revisa el log con:
+  ```sh
+  less ~/hyprland.log
+  ```
+- Usa `journalctl --user -b -xe` para ver logs de servicios de usuario.
+
+---
+
+## 10.3. Recursos y soporte
+
+- [Arch Wiki: Hyprland](https://wiki.archlinux.org/title/Hyprland)
+- [Hyprland Wiki Oficial](https://wiki.hyprland.org/)
+- [Hyprland Discord](https://discord.gg/hyprland)
+- [Reddit: r/Hyprland](https://www.reddit.com/r/hyprland/)
+
+---
+
+## 10.4. Consejos útiles
+
+- Usa `paru` o `yay` para instalar rápidamente paquetes de AUR.
+- Mantén tu sistema actualizado (`sudo pacman -Syu`) frecuentemente.
+- Versiona tus dotfiles y haz backup regular.
+- Documenta siempre tus atajos y personalizaciones.
+
+---
+# 11. Backup y Restauración del Entorno
+
+Asegura que tu entorno sea fácil de restaurar o migrar con buenas prácticas de copia de seguridad.
+
+---
+
+## 11.1. Backup de dotfiles
+
+- Versiona tu configuración en un repositorio git privado o público:
+  ```sh
+  cd ~/.local/share/chezmoi
+  git add .
+  git commit -m "Backup dotfiles"
+  git push
+  ```
+
+- Puedes automatizar backups (por ejemplo, con un cron job que haga push cada semana).
+
+---
+
+## 11.2. Backup del sistema
+
+- Considera usar **Timeshift** para snapshots completos (especialmente si usas Btrfs):
+  ```sh
+  sudo pacman -S timeshift
+  ```
+- Para respaldos simples de tu home:
+  ```sh
+  tar czvf backup-home-$(date +%F).tar.gz ~/
+  ```
+
+---
+
+## 11.3. Restauración en una nueva máquina
+
+1. Instala Arch, Hyprland y chezmoi como hiciste en los primeros pasos.
+2. Clona tu repo de dotfiles:
+   ```sh
+   chezmoi init <tu-usuario>/<repo>
+   chezmoi apply
+   ```
+3. Instala los paquetes listados en tu documentación/readme.
+
+---
+
+## 11.4. Notas
+
+- Actualiza tu README si cambias la estructura de tus dotfiles.
+- Considera usar GitHub, GitLab o un backup en la nube para almacenamiento externo.
+- Si tienes scripts personalizados, documenta su uso y restauración.
+
+---
+# 12. Opcional: Cosas Nerd y Eye Candy
+
+Personaliza tu escritorio Wayland con herramientas visuales, widgets, y trucos para hacerlo único, atractivo y más divertido.
+
+---
+
+## 12.1. Eww (widgets flotantes)
+
+**Eww** te permite mostrar widgets personalizados (reloj, clima, estadísticas, etc.) en tu escritorio.
+
+- Instala desde AUR:
+  ```sh
+  paru -S eww
+  ```
+- Documentación y ejemplos: [Eww Wiki](https://elkowar.github.io/eww/)
+- Configura tus widgets en `~/.config/eww/`, agrégalos a tu autostart en Hyprland:
+  ```
+  exec-once = eww daemon
+  exec = eww open nombre_widget
+  ```
+
+---
+
+## 12.2. Info en terminal (fetch)
+
+- **neofetch**:
+  ```sh
+  sudo pacman -S neofetch
+  ```
+- **fastfetch**:
+  ```sh
+  sudo pacman -S fastfetch
+  ```
+- **pfetch**:
+  ```sh
+  paru -S pfetch
+  ```
+Agrega uno de estos comandos a tu `.bashrc` o `.zshrc` para que se muestre al abrir la terminal.
+
+---
+
+## 12.3. Visualizador de audio en terminal
+
+- **cava** (visualización de espectro de audio):
+  ```sh
+  sudo pacman -S cava
+  ```
+  Configura `cava` para usar pipewire/pulseaudio en `~/.config/cava/config` y lánzalo en una terminal para tener visualizaciones en tiempo real.
+
+---
+
+## 12.4. Waybar con módulos custom
+
+- Crea scripts en `~/.config/waybar/scripts/` para:
+  - Mostrar el clima, precios de criptomonedas, uso de VPN, tareas pendientes, etc.
+  - Ejemplo: módulo custom para actualizaciones de Arch:
+    ```jsonc
+    "custom/updates": {
+      "format": " {}",
+      "interval": 1800,
+      "exec": "~/.config/waybar/scripts/check-updates.sh"
+    }
+    ```
+  - Script `check-updates.sh`:
+    ```sh
+    #!/bin/sh
+    checkupdates | wc -l
+    ```
+    No olvides darle permiso de ejecución.
+
+---
+
+## 12.5. Animaciones en Hyprland
+
+- Hyprland permite animaciones de ventanas, transiciones y más.
+- Ejemplo de configuración en `hyprland.conf`:
+  ```ini
+  animations {
+    enabled = yes
+    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+    animation = windows, 1, 3, myBezier, slide
+    animation = windowsOut, 1, 3, default, popin 80%
+    animation = border, 1, 10, default
+    animation = fade, 1, 10, default
+    animation = workspaces, 1, 7, default, slidevert
+  }
+  ```
+- Prueba diferentes curvas y velocidades para un efecto visual único.
+
+---
+
+## 12.6. Otras ideas
+
+- Usa fondos de pantalla animados o scripts para cambiar de fondo según la hora.
+- Usa Nerd Fonts para iconos en Waybar, terminal y widgets.
+- Prueba temas “eye candy” como Catppuccin, Gruvbox, Dracula, Nord y variantes para Waybar, GTK y Eww.
+
+---
+
+**Diviértete nerdizando y personalizando tu entorno al máximo. ¡Hazlo tuyo!**
+## 1. **Preparación del Sistema**
+
+- Usa una distro rolling release (Arch, EndeavourOS, Fedora Kinoite, Void) para mejor soporte de Hyprland.
+- Instala solo el entorno base y los drivers gráficos.
+
+## 2. **Instalación de Hyprland y Dependencias**
+
+- Instala Hyprland desde el repositorio oficial o AUR.
+- Instala un compositor de notificaciones (ej: mako).
+- Instala herramientas básicas: wayland-utils, xdg-desktop-portal, wl-clipboard, swaybg.
+
+## 3. **Gestión de Configuración**
+
+- Usa un gestor de dotfiles (chezmoi, yadm, dotter, stow) para versionar y sincronizar tu configuración.
+- Estructura tu repo de dotfiles en carpetas (ej: ~/.config/hypr, ~/.config/waybar, etc.).
+
+## 4. **Waybar y Complementos**
+
+- Instala Waybar.
+- Añade módulos útiles: batería, red, volumen, CPU, RAM, notificaciones, temperatura, reloj, bandeja de sistema.
+- Personaliza con temas CSS y fuentes nerd.
+
+## 5. **Programas Esenciales para Wayland**
+
+- Lanzador: wofi, rofi-wayland, tofi.
+- Terminal: kitty, foot, wezterm, alacritty.
+- Gestor de archivos: thunar, nautilus, nemo, pcmanfm.
+- Navegador: firefox-wayland, chromium, qutebrowser.
+- Editor: neovim, helix, vscode (insiders para soporte nativo wayland).
+- Visor de imágenes: imv, loupe, sxiv (compatible con wlroots).
+- Reproductor multimedia: mpv, vlc-wayland.
+- Cliente de correo: thunderbird, aerc.
+- Notas: obsidian, logseq, marktext.
+
+## 6. **Herramientas de Personalización**
+
+- Temas: usa catppuccin, nord, dracula, gruvbox (GTK, cursor, iconos, waybar).
+- Fuentes: JetBrains Mono, FiraCode, Iosevka, fuentes nerd.
+- Cursor: Bibata, Catppuccin, Nord.
+
+## 7. **Gestión de fondos de pantalla**
+
+- swaybg, swww, hyprpaper para wallpapers.
+- Herramienta para cambio automático: pywal, swww-random.
+
+## 8. **Utilidades Avanzadas**
+
+- Portapapeles: cliphist, wl-clipboard.
+- Volumen: pamixer, wireplumber, pavucontrol.
+- Red: network-manager-applet, nmtui.
+- Bluetooth: blueman.
+- Notificaciones: mako.
+- Capturas: grim, slurp, swappy.
+- Screencast: wf-recorder, obs-studio (wayland).
+- Menú de apagado: wlogout, tofi-power-menu.
+
+## 9. **Gestión de ventanas y tiling**
+
+- Usa reglas en Hyprland para floats, tiling, gaps, etc.
+- Scripts para organizar escritorios automáticamente.
+
+## 10. **Automatización y Scripts**
+
+- Scripts para iniciar aplicaciones al inicio (systemd user, hyprland.conf).
+- Hooks personalizados para eventos (ej: cambio de wifi, batería baja).
+
+## 11. **Backups y Sincronización**
+
+- Sincroniza config con git.
+- Backup automático (restic, borg, rsync).
+
+## 12. **Documentación**
+
+- README en tu repo de dotfiles.
+- Lista de atajos, tips y flujos de trabajo.
+
+## 13. **Opcional: Cosas Nerd y Eye Candy**
+
+- eww (widgets flotantes).
+- neofetch, fastfetch, pfetch (info en terminal).
+- cava (visualizador de audio en terminal).
+- waybar con módulos custom (scripts propios).
+- Animaciones Hyprland.
+
+---
+
+### Repositorios recomendados para inspiración:
+
+- [Hyprland wiki](https://wiki.hyprland.org/)
+- [dotfiles de dt](https://github.com/dwt1/dotfiles)
+- [dotfiles de nullchilly](https://github.com/nullchilly/dotfiles)
+- [dotfiles de ChristianChiarulli](https://github.com/ChristianChiarulli/dotfiles)
+
+# Estilos de Mis cursores
+
+Para aplicar estilos difernetes a los cursores en arch linux, se puede hacer de la siguiente manera.
+
+## Instalación
+
+Aqui te muestro todos los paquetes que tengo instalado. Puedes hacerlo con yay.
+
+```bash
+yay -S bibata-cursor-theme qogir-cursor-theme catppuccin-cursors-git nordzy-cursors oreo-cursors-git
+```
+
+Tambien tengo algunos cursores instalados desde pacman.
+
+```bash
+sudo pacman -S breeze-icons breeze-cursor-theme xcursor-breeze xcursor-comix xcursor-vanilla-dmz
+```
+
+## Configuración
+
+El directorio donde esta almacenado los cursores es `/usr/share/icons/`.
+- Ejemplo del directorio de cursores.
+```bash
+❯ ls
+ Adwaita                         Bibata-Original-Ice         Nordzy-cursors                whiteglass
+ AdwaitaLegacy                   Bibata-Original-Ice-Right   Nordzy-cursors-white         
+ Bibata-Modern-Amber             breeze                      Papirus                      
+ Bibata-Modern-Amber-Right       breeze-dark                 Papirus-Dark                 
+ Bibata-Modern-Classic           capitaine-cursors           Papirus-Light                
+ Bibata-Modern-Classic-Right     capitaine-cursors-light     Qogir-cursors                
+ Bibata-Modern-Ice               default                     Qogir-manjaro-cursors        
+ Bibata-Modern-Ice-Right         elementary                  Qogir-manjaro-white-cursors  
+ Bibata-Original-Amber           handhelds                   Qogir-ubuntu-cursors         
+ Bibata-Original-Amber-Right     hicolor                     Qogir-ubuntu-white-cursors   
+ Bibata-Original-Classic         HighContrast                Qogir-white-cursors          
+ Bibata-Original-Classic-Right   locolor                     redglass
+```
+
+Como estamos en hyprland, vamos a cambiar el cursor a `Qogir-cursors`.
+
+```bash
+hyprctl setcursor Qogir-cursors 24
+```
+> Nota: El tamaño del cursor es 24.
+
+Si estas usando mi .zshrc deje una funcion llamada cursors que te va a retornar el `ls -a` de los cursores.
+
+```bash
+cursors
+```
+
+Por ultimo elige el cursor que mas te guste y cambialo de la siguiente manera.
+
+```bash
+hyprctl setcursor <cursor> <size>
+```
+
+### Configuración en hyprland.conf
+
+- El archivo de configuración de hyprland es `~/.config/hypr/hyprland.conf`.
+
+Ahi dejo la linea de codigo en donde puedes dejar seteado el cursor que mas te guste.
