@@ -3,6 +3,9 @@
 
 - Esta configuracion esta diseñada para mi sistema operativo Arch Linux.
 
+<img width="1363" height="765" alt="image" src="https://github.com/user-attachments/assets/b3c1e318-5a69-4530-acf7-c96d4f4d11d0" />
+
+
 ## Gestión de Dotfiles con Chezmoi y Git
 
 Esta guía explica cómo gestionar tu configuración personal (dotfiles) usando [chezmoi](https://www.chezmoi.io/) y Git, permitiendo mantener tu entorno sincronizado, versionado y listo para restaurar en segundos.
