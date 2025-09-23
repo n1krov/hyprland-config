@@ -139,6 +139,9 @@ alias cop='github-copilot-cli'
 # Ping a google
 alias pingg='ping -c 5 google.com'
 
+# alias a ip con colores
+alias ip='ip -c'
+
 # ========================
 #   Funciones
 # ========================
