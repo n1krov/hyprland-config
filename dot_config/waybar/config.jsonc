@@ -140,7 +140,7 @@
         "format-icons": ["", "", "", "", ""]
     },
     "backlight": {
-        "format": "{percent}% {icon}",
+        "format": " {percent}% {icon} ",
         "format-icons": ["", "", "", "", "", "", "", "", ""]
     },
     "battery": {

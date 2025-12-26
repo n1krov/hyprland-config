@@ -9,7 +9,7 @@
         /* background-color: #022b36; */
     
         /* por si va del lado izquierdo */
-        background-color: #900;
+        background-color: #ff4444;
     }
     100% {
         background-color: #ffffff;
@@ -90,8 +90,7 @@ button:hover {
 
 #workspaces button {
     padding: 0 5px;
-    background-color: #ffffff;
-    color: #2e3440;
+    background-color: #eceff4;
 }
 
 #workspaces button.persistent {
@@ -124,9 +123,12 @@ button:hover {
 
 /* Clock */
 #clock {
-    background-color: #ffffff;
-    color: #900;
+    background-color: #28333a;  
+    color: #bbffff;
+
+
     font-size: 12px;
+
     font-weight: 600;
     font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
 
@@ -135,9 +137,8 @@ button:hover {
 
 /* Battery */
 #battery {
-    background-color: #ffffff;
-    color: #022b36;
-
+    background-color: #28333a;  
+    color: #bbffff;
 
     border-radius: 16px 0 0 16px;
     min-width: 45px;
@@ -190,9 +191,13 @@ button:hover {
 
 /* CPU */
 #cpu {
+    /* reemplazar */
+    /* background-color: #ffffff; */
+    /* color: #022b36; */
 
-    background-color: #ffffff;
-    color: #022b36;
+    background-color: #28333a;  
+    color: #bbffff;
+ 
     border-radius: 16px;
     font-size: 12px;
     font-weight: 600;
@@ -203,12 +208,12 @@ button:hover {
 
 /* Memory */
 #memory {
-    background-color: #ffffff;
-
+    background-color: #28333a;  
+    color: #bbffff;
+ 
     border-radius: 16px;
 
 
-    color: #022b36;
     font-weight: 600;
     font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
 }
@@ -220,8 +225,13 @@ button:hover {
 
 /* Backlight */
 #backlight {
-   background-color: #ffffff;
-    color: #022b36;
+    /* background-color: #ffffff; */
+    /* color: #022b36; */
+       
+    background-color: #28333a;  
+    color: #bbffff;
+   
+
     border-radius: 16px;
     font-size: 12px;
     font-weight: 600;
@@ -231,8 +241,11 @@ button:hover {
 /* Network */
 #network {
     /* background-color: #2980b9; */
-    background-color: #ffffff;
-    color: #900;
+
+    /* estos colores lo hice yo */
+    background-color: #28333a;  
+    color: #bbffff;
+    
     border-radius: 16px;
     font-size: 12px;
     font-weight: 400;
@@ -277,8 +290,8 @@ button:hover {
 
 
 #pulseaudio.muted {
-    background-color: #90b1b1;
-    color: #2a5c45;
+    background-color: #ff5555;
+    color: #022b36;
 }
 
 /* Wireplumber */
@@ -288,7 +301,7 @@ button:hover {
 }
 
 #wireplumber.muted {
-    background-color: #f53c3c;
+    background-color: #ff4444;
 }
 
 /* Custom Media */
@@ -308,9 +321,12 @@ button:hover {
 
 /* Temperature */
 #temperature {
-    background-color: #ffffff;
-    color: #022b36;
+    /* background-color: #ffffff; */
+    /* color: #022b36; */
 
+    background-color: #28333a;  
+    color: #bbffff;
+    
     border-radius: 16px;
     font-size: 12px;
     font-weight: 600;
@@ -384,8 +400,8 @@ button:hover {
 
 /* keyboard state */
 #keyboard-state {
-    background: #ffffff;
-    color: #022b36;
+    background-color: #28333a;
+    color: #bbffff;
 
     padding: 0;
     border-radius: 16px;
@@ -403,7 +419,7 @@ button:hover {
 #keyboard-state > label.locked {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 16px;
-    color: #900;
+    color: #ff4444;
 }
 
 /* Scratchpad */
@@ -423,9 +439,7 @@ button:hover {
 #privacy-item {
     padding: 0 5px;
     color: white;
-}
-
-#privacy-item.screenshare {
+} #privacy-item.screenshare {
     background-color: #cf5700;
 }
 
@@ -440,8 +454,9 @@ button:hover {
 /* Custom Power Button */
 #custom-power {
     /* background-color: #1793D1; */
-    background-color: #ffffff;
-    color: #900;
+    background-color: #28333a;  
+    color: #bbffff;
+
     font-size: 20px;
     min-width: 32px;
     padding-right: 4px;
