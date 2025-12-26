@@ -1,122 +1,455 @@
-/* 全局设置 */
+
+/* Pulse Animation */
+@keyframes pulse {
+    0% {
+        background-color: #ffffff;
+    }
+    50% {
+        /* por si va del lado derecho */
+        /* background-color: #022b36; */
+    
+        /* por si va del lado izquierdo */
+        background-color: #900;
+    }
+    100% {
+        background-color: #ffffff;
+    }
+}
+
+/* General Styles */
 * {
-  font-family: "Hack Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Free Solid";
-  font-weight: 500;
-  font-size: 14px;
-  color: #dcdfe1;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    padding: 0;
+    min-height: 23px;
+    transition: all 0.3s ease; /* Smooth transition for all elements */
 }
 
-/* 透明 Waybar 背景 */
-#waybar {
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  box-shadow: none;
+/* Waybar Window */
+window#waybar {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 3px solid transparent; /* Corrected syntax */
+    color: #ffffff;
+    transition: background-color 0.5s ease;
 }
 
-/* 所有模块统一风格 */
-#workspaces,
-#window,
-#tray{
-  /*background-color: rgba(29,31,46, 0.95);*/
-  background-color: rgba(15,27,53,0.9);
-  padding: 4px 6px; /* 保持内部间距 */
-  margin-top: 6px; /* 外部间距增加 */
-  margin-left: 6px; /* 外部间距增加 */
-  margin-right: 6px; /* 外部间距增加 */
-  border-radius: 10px;
-  border-width: 0px;
+window#waybar:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-#clock,
-#custom-power{
-  background-color: rgba(15,27,53,0.9);
-  margin-top: 6px; /* 与屏幕顶部留出距离 */
-  margin-right: 6px;
-  /*margin-bottom: 4px;*/
-  padding: 4px 2px; /* 保持内部间距 */
-  border-radius: 0 10px 10px 0;
-  border-width: 0px;
+window#waybar.hidden {
+    opacity: 0.2;
 }
 
-#network,
-#custom-lock{
-  background-color: rgba(15,27,53,0.9);
-  margin-top: 6px; /* 与屏幕顶部留出距离 */
-  margin-left: 6px;
-  /*margin-bottom: 4px;*/
-  padding: 4px 2px; /* 保持内部间距 */
-  border-radius: 10px 0 0 10px;
-  border-width: 0px;
+window#waybar.termite {
+    background-color: #3F3F3F;
 }
 
-#custom-reboot,
-#bluetooth,
-#battery,
-#pulseaudio,
-#backlight,
-#custom-temperature,
-#memory,
-#cpu{
-  background-color: rgba(15,27,53,0.9);
-  margin-top: 6px; /* 与屏幕顶部留出距离 */
-  /*margin-bottom: 4px;*/
-  padding: 4px 2px; /* 保持内部间距 */
-  border-width: 0px;
+window#waybar.chromium {
+    background-color: #000000;
+    border: none;
 }
 
-#custpm-temperature.critical,
-#pulseaudio.muted {
-  color: #FF0000;
-  padding-top: 0;
+
+
+
+
+
+/* Buttons */
+button {
+    box-shadow: inset 0 -3px transparent;
+    border: none;
+    border-radius: 5px; /* Rounded corners for buttons */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* 鼠标悬停变亮一点 */
-#bluetooth:hover,
-#network:hover,
-/*#tray:hover,*/
-#backlight:hover,
-#battery:hover,
-#pulseaudio:hover,
-#custom-temperature:hover,
-#memory:hover,
-#cpu:hover,
-#clock:hover,
-#custom-lock:hover,
-#custom-reboot:hover,
-#custom-power:hover,
-/*#workspaces:hover,*/
-#window:hover {
-  background-color: rgba(70, 75, 90, 0.9);
+button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Glow effect on hover */
 }
 
-/* 工作区激活状态高亮 */
-#workspaces button:hover{
-  background-color: rgba(97, 175, 239, 0.2);
-  padding: 2px 8px;
-  margin: 0 2px;
-  border-radius: 10px;
+/* Workspaces */
+
+button {
+    box-shadow: inset 0 -3px transparent;
+    border: none;
+    border-radius: 0;
+}
+
+button:hover {
+    transition-duration: .1s;
+    background: inherit;
+    box-shadow: inset 0 -3px #ffffff;
+}
+
+#workspaces {
+    padding: 0 10px;
+    background-color: #ffffff;
+    border-radius: 16px;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background-color: #ffffff;
+    color: #2e3440;
+}
+
+#workspaces button.persistent {
+    background-color: #d8dee9;
+    color: #4c566a;
 }
 
 #workspaces button.active {
-  background-color: #61afef; /* 蓝色高亮 */
-  color: #ffffff;
-  padding: 2px 8px;
-  margin: 0 2px;
-  border-radius: 10px;
+    /* box-shadow: inset 0 -4px #4c566a; */
+    background-color: #ffffff;
+    color: #900;
 }
 
-/* 未激活工作区按钮 */
-#workspaces button {
-  background: transparent;
-  border: none;
-  color: #888888;
-  padding: 2px 8px;
-  margin: 0 2px;
-  font-weight: bold;
+
+
+/* Mode */
+#mode {
+    background-color: #64727D;
+    box-shadow: inset 0 -3px #ffffff;
 }
 
-#window {
-  font-weight: 500;
-  font-style: italic;
+/* Modules Styles */
+#clock, #battery, #cpu, #memory, #disk, #temperature, 
+#backlight, #network, #pulseaudio, #wireplumber, #custom-media, 
+#tray, #mode, #idle_inhibitor, #scratchpad, #power-profiles-daemon, 
+#mpd {
+    padding: 0 10px;
+    color: #ffffff;
 }
 
+/* Clock */
+#clock {
+    background-color: #ffffff;
+    color: #900;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
+    border-radius: 16px;
+}
+
+/* Battery */
+#battery {
+    background-color: #ffffff;
+    color: #022b36;
+
+
+    border-radius: 16px 0 0 16px;
+    min-width: 45px;
+
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
+}
+
+#battery.charging, #battery.plugged {
+    background-color: #26A65B;
+    color: #ffffff;
+}
+
+#battery.critical:not(.charging) {
+    background-color: #900;
+    color: #ffffff;
+    animation: blink 0.5s steps(12) infinite alternate;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+/* Power Profiles */
+#power-profiles-daemon {
+    padding-right: 15px;
+
+    border-radius: 16px;
+}
+
+#power-profiles-daemon.performance {
+    background-color: #900;
+    color: #ffffff;
+}
+
+#power-profiles-daemon.balanced {
+    background-color: #2980b9;
+    color: #ffffff;
+}
+
+#power-profiles-daemon.power-saver {
+    background-color: #2ecc71;
+    color: #000000;
+}
+
+/* CPU */
+#cpu {
+
+    background-color: #ffffff;
+    color: #022b36;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+    min-width: 45px;
+
+}
+
+/* Memory */
+#memory {
+    background-color: #ffffff;
+
+    border-radius: 16px;
+
+
+    color: #022b36;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Disk */
+#disk {
+    background-color: #964B00;
+}
+
+/* Backlight */
+#backlight {
+   background-color: #ffffff;
+    color: #022b36;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif; 
+}
+
+/* Network */
+#network {
+    /* background-color: #2980b9; */
+    background-color: #ffffff;
+    color: #900;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
+}
+
+#network.disconnected {
+    background-color: #900;
+    color: #ffffff;
+}
+
+/* Pulseaudio */
+#pulseaudio {
+    /* background-color: #f1c40f; */
+    
+    /* por si va del lado derecho */
+    /* background-color: #ffffff; */
+    /* color: #022b36; */
+
+    /* por si va del lado izquierdo */
+    background-color: #ffffff;
+    color: #900;
+
+    min-width: 80px;
+    border-radius: 16px;
+    
+    /* font */
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
+}
+
+/* Pulseaudio Hover */
+#pulseaudio:hover {
+    background-color: #900;
+    color: #022b36;
+    /* color: #ffffff; */
+    animation: pulse 1s infinite; /* Pulse animation */
+}
+
+
+#pulseaudio.muted {
+    background-color: #90b1b1;
+    color: #2a5c45;
+}
+
+/* Wireplumber */
+#wireplumber {
+    background-color: #fff0f5;
+    color: #000000;
+}
+
+#wireplumber.muted {
+    background-color: #f53c3c;
+}
+
+/* Custom Media */
+#custom-media {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+    background-color: #66cc99;
+}
+
+#custom-media.custom-vlc {
+    background-color: #ffa000;
+}
+
+/* Temperature */
+#temperature {
+    background-color: #ffffff;
+    color: #022b36;
+
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+/* Tray */
+#tray {
+    background-color: #2980b9;
+    padding: 0 5px;
+}
+
+#tray button {
+    background-color: transparent;
+    padding: 0 5px;
+}
+
+#tray button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+/* Idle Inhibitor */
+#idle_inhibitor {
+    background-color: #2d3436;
+}
+
+#idle_inhibitor.activated {
+    background-color: #ecf0f1;
+    color: #2d3436;
+}
+
+/* MPD */
+#mpd {
+    background-color: #66cc99;
+    color: #2a5c45;
+}
+
+#mpd.disconnected {
+    background-color: #f53c3c;
+}
+
+#mpd.stopped {
+    background-color: #90b1b1;
+}
+
+#mpd.paused {
+    background-color: #51a37a;
+}
+
+/* Language & Keyboard State */
+#language {
+    background: #00b093;
+    color: #740864;
+    padding: 0 5px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+/* keyboard state */
+#keyboard-state {
+    background: #ffffff;
+    color: #022b36;
+
+    padding: 0;
+    border-radius: 16px;
+
+    font-size: 12px;
+    font-weight: 600;
+    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    color: #900;
+}
+
+/* Scratchpad */
+#scratchpad {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad.empty {
+    background-color: transparent;
+}
+
+/* Privacy */
+#privacy {
+    padding: 0;
+}
+
+#privacy-item {
+    padding: 0 5px;
+    color: white;
+}
+
+#privacy-item.screenshare {
+    background-color: #cf5700;
+}
+
+#privacy-item.audio-in {
+    background-color: #1ca000;
+}
+
+#privacy-item.audio-out {
+    background-color: #0069d4;
+}
+
+/* Custom Power Button */
+#custom-power {
+    /* background-color: #1793D1; */
+    background-color: #ffffff;
+    color: #900;
+    font-size: 20px;
+    min-width: 32px;
+    padding-right: 4px;
+
+    border-radius: 0 16px 16px 0;
+}
+
+/* General Padding Adjustment */
+#network, #cpu, #memory, #backlight, #battery {
+    padding: 0 5px;
+}
