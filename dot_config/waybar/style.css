@@ -1,355 +1,233 @@
 
-/* Pulse Animation */
-@keyframes pulse {
-    0% {
-        background-color: #ffffff;
-    }
-    50% {
-        /* por si va del lado derecho */
-        /* background-color: #022b36; */
-    
-        /* por si va del lado izquierdo */
-        background-color: #ff4444;
-    }
-    100% {
-        background-color: #ffffff;
-    }
-}
+/*
+ * Catppuccin-inspired Theme for Waybar
+ * Author: Gemini
+ * Date: 2025-12-26
+ */
 
-/* General Styles */
+/* ----------------- Color Definitions ----------------- */
+@define-color rosewater #f5e0dc;
+@define-color flamingo #f2cdcd;
+@define-color pink #f5c2e7;
+@define-color mauve #cba6f7;
+@define-color red #f38ba8;
+@define-color maroon #eba0ac;
+@define-color peach #fab387;
+@define-color yellow #f9e2af;
+@define-color green #a6e3a1;
+@define-color teal #94e2d5;
+@define-color sky #89dceb;
+@define-color sapphire #74c7ec;
+@define-color blue #89b4fa;
+@define-color lavender #b4befe;
+
+@define-color text #cdd6f4;
+@define-color subtext1 #bac2de;
+@define-color subtext0 #a6adc8;
+@define-color overlay2 #9399b2;
+@define-color overlay1 #7f849c;
+@define-color overlay0 #6c7086;
+@define-color surface2 #585b70;
+@define-color surface1 #45475a;
+@define-color surface0 #313244;
+@define-color base #1e1e2e;
+@define-color mantle #181825;
+@define-color crust #11111b;
+
+/* -- Main Theme Colors -- */
+@define-color bar-bg rgba(24, 24, 37, 0.8); /* mantle with transparency */
+@define-color main-fg @text;
+@define-color module-bg @surface0;
+@define-color module-fg @text;
+@define-color module-hover-bg @surface1;
+@define-color module-border @mauve;
+@define-color critical-bg @red;
+@define-color warning-bg @peach;
+@define-color success-bg @green;
+@define-color info-bg @blue;
+@define-color workspace-active-bg @surface1;
+@define-color workspace-active-fg @mauve;
+@define-color workspace-inactive-fg @overlay1;
+
+
+/* ----------------- General Styles ----------------- */
 * {
     font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
+    font-weight: 600;
     padding: 0;
-    min-height: 23px;
-    transition: all 0.3s ease; /* Smooth transition for all elements */
+    min-height: 24px;
+    transition: all 0.3s ease;
 }
 
-/* Waybar Window */
 window#waybar {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-bottom: 3px solid transparent; /* Corrected syntax */
-    color: #ffffff;
-    transition: background-color 0.5s ease;
-}
-
-window#waybar:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: @bar-bg;
+    color: @main-fg;
+    border-radius: 16px;
+    margin: 5px;
+    padding: 0 10px; /* Added padding to the bar itself */
 }
 
 window#waybar.hidden {
-    opacity: 0.2;
+    opacity: 0.3;
 }
 
-window#waybar.termite {
-    background-color: #3F3F3F;
+/* ----------------- Module Styles ----------------- */
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#power-profiles-daemon,
+#keyboard-state,
+#custom-power {
+    background-color: transparent;
+    color: @module-fg;
+    padding: 0 12px;
+    margin: 4px 0;
 }
 
-window#waybar.chromium {
-    background-color: #000000;
-    border: none;
+/* Add spacing between modules */
+#modules-right > * {
+    margin-left: 6px;
+}
+#modules-left > * {
+    margin-right: 6px;
 }
 
-
-
-
-
-
-/* Buttons */
-button {
-    box-shadow: inset 0 -3px transparent;
-    border: none;
-    border-radius: 5px; /* Rounded corners for buttons */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+/* First and Last module rounded corners */
+#modules-left > *:first-child {
+    border-radius: 12px 0 0 12px;
+}
+#modules-left > *:last-child {
+    border-radius: 0 12px 12px 0;
+}
+#modules-right > *:first-child {
+    border-radius: 12px 0 0 12px;
+}
+#modules-right > *:last-child {
+    border-radius: 0 12px 12px 0;
 }
 
-button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Glow effect on hover */
-}
-
-/* Workspaces */
-
-button {
-    box-shadow: inset 0 -3px transparent;
-    border: none;
-    border-radius: 0;
-}
-
-button:hover {
-    transition-duration: .1s;
-    background: inherit;
-    box-shadow: inset 0 -3px #ffffff;
-}
-
+/* Single modules */
 #workspaces {
-    padding: 0 10px;
-    background-color: #ffffff;
-    border-radius: 16px;
+    margin: 4px 6px;
+    padding: 0 12px;
+    border-radius: 12px;
+}
+
+
+/* ----------------- Workspaces ----------------- */
+#workspaces {
+    background-color: transparent;
 }
 
 #workspaces button {
-    padding: 0 5px;
-    background-color: #eceff4;
+    color: @workspace-inactive-fg;
+    background-color: transparent;
+    padding: 0 6px;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
 }
 
-#workspaces button.persistent {
-    background-color: #d8dee9;
-    color: #4c566a;
+#workspaces button:hover {
+    background-color: @module-hover-bg;
+    color: @lavender;
 }
 
 #workspaces button.active {
-    /* box-shadow: inset 0 -4px #4c566a; */
-    background-color: #ffffff;
-    color: #900;
+    background-color: @workspace-active-bg;
+    color: @workspace-active-fg;
 }
 
-
-
-/* Mode */
-#mode {
-    background-color: #64727D;
-    box-shadow: inset 0 -3px #ffffff;
+#workspaces button.persistent {
+    color: @overlay0;
 }
 
-/* Modules Styles */
-#clock, #battery, #cpu, #memory, #disk, #temperature, 
-#backlight, #network, #pulseaudio, #wireplumber, #custom-media, 
-#tray, #mode, #idle_inhibitor, #scratchpad, #power-profiles-daemon, 
-#mpd {
-    padding: 0 10px;
-    color: #ffffff;
+/* ----------------- Specific Module States ----------------- */
+
+/* Power Button */
+#custom-power {
+    color: @blue;
+    font-size: 18px;
 }
 
 /* Clock */
 #clock {
-    background-color: #28333a;  
-    color: #bbffff;
-
-
-    font-size: 12px;
-
-    font-weight: 600;
-    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
-
-    border-radius: 16px;
+    color: @mauve;
 }
 
 /* Battery */
-#battery {
-    background-color: #28333a;  
-    color: #bbffff;
-
-    border-radius: 16px 0 0 16px;
-    min-width: 45px;
-
-    font-size: 12px;
-    font-weight: 600;
-    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
-
-}
-
-#battery.charging, #battery.plugged {
-    background-color: #26A65B;
-    color: #ffffff;
+#battery.charging,
+#battery.plugged {
+    color: @green;
 }
 
 #battery.critical:not(.charging) {
-    background-color: #900;
-    color: #ffffff;
-    animation: blink 0.5s steps(12) infinite alternate;
+    background-color: @critical-bg;
+    color: @crust;
+    animation: blink 0.8s steps(1, end) infinite alternate;
 }
 
 @keyframes blink {
     to {
-        background-color: #ffffff;
-        color: #000000;
+        background-color: @warning-bg;
+        color: @crust;
     }
 }
 
 /* Power Profiles */
-#power-profiles-daemon {
-    padding-right: 15px;
-
-    border-radius: 16px;
-}
-
 #power-profiles-daemon.performance {
-    background-color: #900;
-    color: #ffffff;
+    color: @red;
 }
-
 #power-profiles-daemon.balanced {
-    background-color: #2980b9;
-    color: #ffffff;
+    color: @sapphire;
 }
-
 #power-profiles-daemon.power-saver {
-    background-color: #2ecc71;
-    color: #000000;
-}
-
-/* CPU */
-#cpu {
-    /* reemplazar */
-    /* background-color: #ffffff; */
-    /* color: #022b36; */
-
-    background-color: #28333a;  
-    color: #bbffff;
- 
-    border-radius: 16px;
-    font-size: 12px;
-    font-weight: 600;
-    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
-    min-width: 45px;
-
-}
-
-/* Memory */
-#memory {
-    background-color: #28333a;  
-    color: #bbffff;
- 
-    border-radius: 16px;
-
-
-    font-weight: 600;
-    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
-}
-
-/* Disk */
-#disk {
-    background-color: #964B00;
-}
-
-/* Backlight */
-#backlight {
-    /* background-color: #ffffff; */
-    /* color: #022b36; */
-       
-    background-color: #28333a;  
-    color: #bbffff;
-   
-
-    border-radius: 16px;
-    font-size: 12px;
-    font-weight: 600;
-    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif; 
+    color: @green;
 }
 
 /* Network */
 #network {
-    /* background-color: #2980b9; */
-
-    /* estos colores lo hice yo */
-    background-color: #28333a;  
-    color: #bbffff;
-    
-    border-radius: 16px;
-    font-size: 12px;
-    font-weight: 400;
-    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
-
+    color: @blue;
 }
-
 #network.disconnected {
-    background-color: #900;
-    color: #ffffff;
+    background-color: @warning-bg;
+    color: @crust;
 }
 
 /* Pulseaudio */
 #pulseaudio {
-    /* background-color: #f1c40f; */
-    
-    /* por si va del lado derecho */
-    /* background-color: #ffffff; */
-    /* color: #022b36; */
-
-    /* por si va del lado izquierdo */
-    background-color: #ffffff;
-    color: #900;
-
-    min-width: 80px;
-    border-radius: 16px;
-    
-    /* font */
-    font-size: 12px;
-    font-weight: 600;
-    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
-
+    color: @peach;
 }
-
-/* Pulseaudio Hover */
-#pulseaudio:hover {
-    background-color: #900;
-    color: #022b36;
-    /* color: #ffffff; */
-    animation: pulse 1s infinite; /* Pulse animation */
-}
-
-
 #pulseaudio.muted {
-    background-color: #ff5555;
-    color: #022b36;
-}
-
-/* Wireplumber */
-#wireplumber {
-    background-color: #fff0f5;
-    color: #000000;
-}
-
-#wireplumber.muted {
-    background-color: #ff4444;
-}
-
-/* Custom Media */
-#custom-media {
-    background-color: #66cc99;
-    color: #2a5c45;
-    min-width: 100px;
-}
-
-#custom-media.custom-spotify {
-    background-color: #66cc99;
-}
-
-#custom-media.custom-vlc {
-    background-color: #ffa000;
+    background-color: @surface1;
+    color: @overlay1;
 }
 
 /* Temperature */
 #temperature {
-    /* background-color: #ffffff; */
-    /* color: #022b36; */
-
-    background-color: #28333a;  
-    color: #bbffff;
-    
-    border-radius: 16px;
-    font-size: 12px;
-    font-weight: 600;
-    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
+    color: @yellow;
+}
+#temperature.critical {
+    background-color: @critical-bg;
+    color: @crust;
 }
 
-#temperature.critical {
-    background-color: #eb4d4b;
+/* Keyboard State */
+#keyboard-state > label.locked {
+    color: @red;
 }
 
 /* Tray */
 #tray {
-    background-color: #2980b9;
-    padding: 0 5px;
-}
-
-#tray button {
-    background-color: transparent;
-    padding: 0 5px;
-}
-
-#tray button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: @surface0;
+    margin: 4px 6px 4px 0;
+    padding: 0 8px;
+    border-radius: 12px;
 }
 
 #tray > .passive {
@@ -358,113 +236,5 @@ button:hover {
 
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
-    background-color: #eb4d4b;
-}
-
-/* Idle Inhibitor */
-#idle_inhibitor {
-    background-color: #2d3436;
-}
-
-#idle_inhibitor.activated {
-    background-color: #ecf0f1;
-    color: #2d3436;
-}
-
-/* MPD */
-#mpd {
-    background-color: #66cc99;
-    color: #2a5c45;
-}
-
-#mpd.disconnected {
-    background-color: #f53c3c;
-}
-
-#mpd.stopped {
-    background-color: #90b1b1;
-}
-
-#mpd.paused {
-    background-color: #51a37a;
-}
-
-/* Language & Keyboard State */
-#language {
-    background: #00b093;
-    color: #740864;
-    padding: 0 5px;
-    margin: 0 5px;
-    min-width: 16px;
-}
-
-/* keyboard state */
-#keyboard-state {
-    background-color: #28333a;
-    color: #bbffff;
-
-    padding: 0;
-    border-radius: 16px;
-
-    font-size: 12px;
-    font-weight: 600;
-    font-family: Hack-Nerd-Font, Roboto, Helvetica, Arial, sans-serif;
-
-}
-
-#keyboard-state > label {
-    padding: 0 5px;
-}
-
-#keyboard-state > label.locked {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 16px;
-    color: #ff4444;
-}
-
-/* Scratchpad */
-#scratchpad {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-#scratchpad.empty {
-    background-color: transparent;
-}
-
-/* Privacy */
-#privacy {
-    padding: 0;
-}
-
-#privacy-item {
-    padding: 0 5px;
-    color: white;
-} #privacy-item.screenshare {
-    background-color: #cf5700;
-}
-
-#privacy-item.audio-in {
-    background-color: #1ca000;
-}
-
-#privacy-item.audio-out {
-    background-color: #0069d4;
-}
-
-/* Custom Power Button */
-#custom-power {
-    /* background-color: #1793D1; */
-    background-color: #28333a;  
-    color: #bbffff;
-
-    font-size: 20px;
-    min-width: 32px;
-    padding-right: 4px;
-
-    border-radius: 0 16px 16px 0;
-}
-
-/* General Padding Adjustment */
-#network, #cpu, #memory, #backlight, #battery {
-    padding: 0 5px;
+    background-color: @red;
 }

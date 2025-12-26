@@ -1,7 +1,7 @@
 
 // -*- mode: jsonc -*-
 {
-    "spacing": 4, // Gaps between modules (4px)
+    "spacing": 0, // Gaps between modules (4px)
     
     "modules-left": [
         "custom/power",
@@ -42,28 +42,7 @@
     },
 
     
-    // "hyprland/workspaces": {
-    //     "disable-scroll": false,
-    //     "all-outputs": true,
-    //     "warp-on-scroll": false,
-    //     "format": "{icon}",  // Mostrar nombre e icono
-    //     "format-icons": {
-    //         "active": "󰮯 ",
-    //         "1": "●",   // Pelotita para el workspace 1
-    //         "2": "●",   // Pelotita para el workspace 2
-    //         "3": "●",   // Pelotita para el workspace 3
-    //         "4": "●",   // Pelotita para el workspace 4
-    //         "5": "●",   // Pelotita para el workspace 5
-    //         "6": "●",   // Pelotita para el workspace 6
-    //         "7": "●",   // Pelotita para el workspace 7
-    //         "8": "●",   // Pelotita para el workspace 8
-    //         "9": "●",   // Pelotita para el workspace 9
-    //         "urgent": "",  // Icono para workspace urgente
-    //         "focused": "", // Icono para workspace enfocado
-    //         "default": ""  // Icono por defecto para workspaces inactivos
-    //     },
-    //     "on-click": "hyprctl dispatch workspace {name}"  // Cambiar de workspace al hacer clic
-    // },
+
 
     "keyboard-state": {
         "numlock": true,
